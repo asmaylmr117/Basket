@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow flex items-center justify-center">
         <Routes>
           <Route path="/" element={<Home1 />} />
           <Route path="/home1" element={<Home1 />} />
