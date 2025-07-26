@@ -10,11 +10,7 @@ function Header() {
   };
 
   const navLinks = [
-    { to: "/home1", label: "Home 1" },
-    { to: "/home2", label: "Home 2" },
-    { to: "/home3", label: "Home 3" },
-    { to: "/home4", label: "Home 4" },
-    { to: "/home5", label: "Home 5" },
+    { to: "/home", label: "Home " },
     { to: "/shop", label: "Shop" },
     { to: "/blog", label: "Blog" },
     { to: "/contact", label: "Contact" },
