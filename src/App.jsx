@@ -14,8 +14,9 @@ function App() {
       <Header />
       <main className="flex-grow flex items-center justify-center">
         <Routes>
+          <Route path="/" element={<Home />} /> 
           <Route path="/home" element={<Home />} /> 
-           <Route path="/shop" element={<Shop />} /> 
+          <Route path="/shop" element={<Shop />} /> 
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
