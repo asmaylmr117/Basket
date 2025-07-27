@@ -15,6 +15,7 @@ function App() {
       <main className="flex-grow flex items-center justify-center">
         <Routes>
           <Route path="/home" element={<Home />} /> 
+          <Route path="/shop" element={<Shop />} /> 
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
