@@ -96,8 +96,8 @@ const Home = () => {
                 <span className="text-gray-600 text-sm sm:text-lg">from</span>
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">$7.99</span>
               </div>
- <br />
-               <Link
+              <br />
+              <Link
                 to="/shop"
                 className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
               >
@@ -118,18 +118,18 @@ const Home = () => {
               </h3>
             </div>
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 lg:space-x-6">
-  <img
-    src="./img/banner-box2.jpg"
-    alt="Delivery illustration"
-    className="w-70 object-cover rounded"
-  />
-  <Link
-    to="/shop"
-    className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto flex justify-center items-center"
-  >
-    Shop Now
-  </Link>
-</div>
+              <img
+                src="./img/banner-box2.jpg"
+                alt="Delivery illustration"
+                className="w-70 object-cover rounded"
+              />
+              <Link
+                to="/shop"
+                className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto flex justify-center items-center"
+              >
+                Shop Now
+              </Link>
+            </div>
 
           </div>
         </div>
@@ -147,14 +147,22 @@ const Home = () => {
                 Ut placerat, magna quis porttitor vulputate, magna nunc auctor ante.
               </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 w-full lg:w-auto">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:gap-4">
               {countdownDisplay.map((item, index) => (
-                <div key={index} className="bg-red-600 text-white rounded-lg p-3 sm:p-4 text-center shadow-lg min-w-0">
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">{item.value}</div>
-                  <div className="text-xs sm:text-sm opacity-90">{item.label}</div>
-                </div>
+                <React.Fragment key={index}>
+                  <div className="bg-red-600 text-white rounded-lg p-3 sm:p-4 text-center shadow-lg min-w-0">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">{item.value}</div>
+                    <div className="text-xs sm:text-sm opacity-90">{item.label}</div>
+                  </div>
+
+                  {/* Show ':' between items but NOT after the last one */}
+                  {index < countdownDisplay.length - 1 && (
+                    <span className="text-2xl font-bold text-red-700 sm:text-3xl">:</span>
+                  )}
+                </React.Fragment>
               ))}
             </div>
+
           </div>
         </div>
       </section>
