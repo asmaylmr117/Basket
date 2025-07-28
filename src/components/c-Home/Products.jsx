@@ -231,7 +231,7 @@ const Products = () => {
             </svg>
           </button>
         </div>
-
+  
         <div className="flex sm:hidden justify-between items-center mt-4 px-4">
           <button
             onClick={prevProducts}

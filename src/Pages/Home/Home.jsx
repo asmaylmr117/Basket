@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Products from '../../components/c-Home/Products';
 
 const Home = () => {
   // Initialize countdown state with the starting values
@@ -62,12 +63,14 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <br />
+      <br />
+      <br />
       {/* Hero Section */}
       <section
         className="relative bg-cover bg-center bg-no-repeat overflow-hidden shadow-md rounded-lg"
         style={{
           backgroundImage:
-            'url("./img/phto1.png")',
+            'url("./img/Capture.PNG")',
         }}
       >
         <div className="container mx-auto max-w-[1600px] px-4 sm:px-6 py-12 sm:py-16 lg:py-24 relative">
@@ -155,6 +158,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <Products />
     </div>
   );
 };
