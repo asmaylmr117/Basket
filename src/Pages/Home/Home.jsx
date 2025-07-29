@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Products from '../../components/c-Home/Products';
 import BestSeller from '../../components/c-Home/BestSeller';
+import FeaturedProducts from '../../components/c-Home/Featured Products';
+
 const Home = () => {
   // Initialize countdown state with the starting values
   const [countdown, setCountdown] = useState({
@@ -168,6 +170,7 @@ const Home = () => {
       </section>
       <Products />
       <BestSeller />
+      <FeaturedProducts />
     </div>
   );
 };

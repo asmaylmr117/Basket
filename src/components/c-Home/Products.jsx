@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 const Products = () => {
   const [topProducts, setTopProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -36,10 +38,9 @@ const Products = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://fakestoreapi.com/products');
-        const data = await response.json();
-        setTopProducts(data.slice(0, 5));
-        setAllProducts(data);
+        const response = await axios.get('https://fakestoreapi.com/products');
+        setTopProducts(response.data.slice(0, 5));
+        setAllProducts(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
 
