@@ -29,9 +29,8 @@ const BestSeller = () => {
       stars.push(
         <Star
           key={i}
-          className={`w-3 h-3 ${
-            i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
-          }`}
+          className={`w-3 h-3 ${i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+            }`}
         />
       );
     }
@@ -52,7 +51,23 @@ const BestSeller = () => {
       </div>
     );
   }
-
+  const cards = [
+    {
+      title: 'LED products',
+      subtitle: ' leading brand ',
+      backgroundImage: 'url(https://www.pacific-research.com/wp-content/uploads/2020/04/shutterstock_251380513-1536x864.jpg)',
+    },
+    {
+      title: 'Taste the Best',
+      subtitle: 'Shine the morning',
+      backgroundImage: 'url(https://www.thepackagingcompany.com/knowledge-sharing/wp-content/uploads/2020/09/5-Packaging-Tips-for-Selling-Products-Online-e1599060089773-1026x675.jpg)',
+    },
+    {
+      title: 'Best the bag',
+      subtitle: 'Bags Product Photography',
+      backgroundImage: 'url(https://images.squarespace-cdn.com/content/v1/65a01343d4e0b521531eda0a/1704989563809-0TRDY2BNK4NWERBDLGAL/Large+scale+product+photography)',
+    },
+  ];
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
@@ -62,11 +77,11 @@ const BestSeller = () => {
           <p className="text-gray-600">Items with the seal of quality</p>
         </div>
         <Link
-      to="/shop"
-      className="inline-flex items-center px-6 py-2 bg-white rounded-full text-gray-600 hover:text-gray-800 font-medium border border-gray-300 hover:bg-gray-50 transition-colors duration-200 sm:px-4 sm:py-1.5 sm:text-sm"
-    >
-      View All 
-    </Link>
+          to="/shop"
+          className="inline-flex items-center px-6 py-2 bg-white rounded-full text-gray-600 hover:text-gray-800 font-medium border border-gray-300 hover:bg-gray-50 transition-colors duration-200 sm:px-4 sm:py-1.5 sm:text-sm"
+        >
+          View All
+        </Link>
       </div>
 
       {/* Products Layout */}
@@ -88,16 +103,16 @@ const BestSeller = () => {
                   {getDiscountLabel(index)}
                 </div>
               </div>
-              
+
               <div className="p-3 h-28">
                 <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
                   {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
                 </h3>
-                
+
                 <div className="text-xs text-gray-500 mb-1 uppercase">
                   {product.category}
                 </div>
-                
+
                 <div className="flex items-center mb-1">
                   <div className="flex items-center mr-1">
                     {renderStars(product.rating.rate)}
@@ -106,7 +121,7 @@ const BestSeller = () => {
                     {product.rating.count}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <span className="text-xs text-gray-400 line-through">
@@ -121,19 +136,20 @@ const BestSeller = () => {
             </div>
           ))}
         </div>
-
-         {/* Center Divider Image */}
-<div className="flex-shrink-0">
+{/* Center Divider Image */}
+<div className="flex-shrink-0 w-full sm:w-full lg:w-60">
   <div
-    className="w-60 h-full min-h-[480px] shadow-lg border-2 border-gray-200"
+    className="h-40 sm:h-56 lg:h-full lg:min-h-[480px] shadow-lg border-2 border-gray-200"
     style={{
-      backgroundImage: 'url("./img/photo4.jpg")',
+      backgroundImage: 'url("/img/photo4.jpg")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
     }}
   ></div>
 </div>
+
+
 
 
         {/* Last 4 Products - 2x2 Grid */}
@@ -153,16 +169,16 @@ const BestSeller = () => {
                   {getDiscountLabel(index + 4)}
                 </div>
               </div>
-              
+
               <div className="p-3 h-28">
                 <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
                   {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
                 </h3>
-                
+
                 <div className="text-xs text-gray-500 mb-1 uppercase">
                   {product.category}
                 </div>
-                
+
                 <div className="flex items-center mb-1">
                   <div className="flex items-center mr-1">
                     {renderStars(product.rating.rate)}
@@ -171,7 +187,7 @@ const BestSeller = () => {
                     {product.rating.count}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <span className="text-xs text-gray-400 line-through">
@@ -187,8 +203,28 @@ const BestSeller = () => {
           ))}
         </div>
       </div>
+      <div className="flex justify-center items-center p-4">
+         <div className="flex flex-col md:flex-row gap-4">
+        {cards.map((card, index) => (
+          <div key={index} className="w-[392px] h-[218.63px] p-6 rounded-[7px] shadow-lg" style={{ backgroundImage: card.backgroundImage, backgroundSize: 'cover', backgroundPosition: 'center', marginLeft: '15px' }}>
+            <div className="text-left">
+              <p className="text-green-600 font-bold">WEEKEND DISCOUNT 40%</p>
+              <h2 className="text-2xl font-semibold mt-2">{card.title}</h2>
+              <p className="text-gray-600 mt-1">{card.subtitle}</p>
+              <br />
+              <Link to="/shop" className="mt-4 bg-gray-300 text-white  py-2 px-4 rounded-[15px] hover:bg-gray-200">
+             Shop Now</Link>
+            </div>
+          </div>
+        ))}
+      </div>
+      </div>
     </div>
   );
 };
 
 export default BestSeller;
+
+
+
+

@@ -113,7 +113,7 @@ const Home = () => {
         <div className="container mx-auto max-w-[1600px] px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 sm:space-y-6 lg:space-y-0">
             <div className="flex items-center justify-center lg:justify-start">
-              <h3 className="text-green-700 text-sm sm:text-base lg:text-xl font-semibold text-center lg:text-left">
+              <h3 className="text-green-700 text-sm sm:text-base lg:text-3xl  font-semibold text-center lg:text-left">
                 100% Secure delivery without contacting the courier
               </h3>
             </div>
