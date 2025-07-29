@@ -1,0 +1,194 @@
+import React, { useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
+const BestSeller = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        const data = await response.json();
+        //  (index 4-11)
+        const selectedProducts = data.slice(4, 12);
+        setProducts(selectedProducts);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <Star
+          key={i}
+          className={`w-3 h-3 ${
+            i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+          }`}
+        />
+      );
+    }
+    return stars;
+  };
+
+  const getDiscountLabel = (index) => {
+    const discounts = ['25%', '20%', '15%', '30%', '10%', '35%', '18%', '12%'];
+    return discounts[index % discounts.length];
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">BEST SELLERS</h2>
+          <p className="text-gray-600">Items with the seal of quality</p>
+        </div>
+        <Link
+      to="/shop"
+      className="inline-flex items-center px-6 py-2 bg-white rounded-full text-gray-600 hover:text-gray-800 font-medium border border-gray-300 hover:bg-gray-50 transition-colors duration-200 sm:px-4 sm:py-1.5 sm:text-sm"
+    >
+      View All 
+    </Link>
+      </div>
+
+      {/* Products Layout */}
+      <div className="flex flex-col lg:flex-row items-center">
+        {/* First 4 Products - 2x2 Grid */}
+        <div className="grid grid-cols-2 flex-1 h-fit">
+          {products.slice(0, 4).map((product, index) => (
+            <div
+              key={product.id}
+              className="bg-white  shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200"
+            >
+              <div className="relative">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-32 object-contain p-3"
+                />
+                <div className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium">
+                  {getDiscountLabel(index)}
+                </div>
+              </div>
+              
+              <div className="p-3 h-28">
+                <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
+                  {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
+                </h3>
+                
+                <div className="text-xs text-gray-500 mb-1 uppercase">
+                  {product.category}
+                </div>
+                
+                <div className="flex items-center mb-1">
+                  <div className="flex items-center mr-1">
+                    {renderStars(product.rating.rate)}
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    {product.rating.count}
+                  </span>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-xs text-gray-400 line-through">
+                      ${(product.price * 1.2).toFixed(2)}
+                    </span>
+                    <span className="text-sm font-bold text-red-600">
+                      ${product.price}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+         {/* Center Divider Image */}
+<div className="flex-shrink-0">
+  <div
+    className="w-60 h-full min-h-[480px] shadow-lg border-2 border-gray-200"
+    style={{
+      backgroundImage: 'url("./img/photo4.jpg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    }}
+  ></div>
+</div>
+
+
+        {/* Last 4 Products - 2x2 Grid */}
+        <div className="grid grid-cols-2 flex-1 h-fit">
+          {products.slice(4, 8).map((product, index) => (
+            <div
+              key={product.id}
+              className="bg-white  shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200"
+            >
+              <div className="relative">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-32 object-contain p-3"
+                />
+                <div className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium">
+                  {getDiscountLabel(index + 4)}
+                </div>
+              </div>
+              
+              <div className="p-3 h-28">
+                <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
+                  {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
+                </h3>
+                
+                <div className="text-xs text-gray-500 mb-1 uppercase">
+                  {product.category}
+                </div>
+                
+                <div className="flex items-center mb-1">
+                  <div className="flex items-center mr-1">
+                    {renderStars(product.rating.rate)}
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    {product.rating.count}
+                  </span>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-xs text-gray-400 line-through">
+                      ${(product.price * 1.2).toFixed(2)}
+                    </span>
+                    <span className="text-sm font-bold text-red-600">
+                      ${product.price}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BestSeller;

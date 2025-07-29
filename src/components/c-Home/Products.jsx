@@ -146,6 +146,7 @@ const Products = () => {
           <div className="z-10 flex-1">
             <h3 className="text-lg sm:text-2xl font-bold text-gray-800 mb-1 sm:mb-2">The shoes products</h3>
             <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-4">A family place for products</p>
+            <br />
             <Link
               to="/shop"
               className=" bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
@@ -161,6 +162,7 @@ const Products = () => {
           <div className="z-10 flex-1">
             <h3 className="text-lg sm:text-2xl font-bold text-gray-800 mb-1 sm:mb-2">The boot products</h3>
             <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-4">A different kind of products store</p>
+            <br />
             <Link
               to="/shop"
               className=" bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"

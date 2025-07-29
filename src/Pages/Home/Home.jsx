@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Products from '../../components/c-Home/Products';
-
+import BestSeller from '../../components/c-Home/BestSeller';
 const Home = () => {
   // Initialize countdown state with the starting values
   const [countdown, setCountdown] = useState({
@@ -61,7 +61,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+   <div className="min-h-screen max-w-[95%] mx-auto">
       <br />
       <br />
       <br />
@@ -87,7 +87,7 @@ const Home = () => {
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Specialist in the
-                  <span className="block text-gray-900">grocery store</span>
+                  <span className="block text-gray-900">Product store</span>
                 </h1>
                 <p className="text-gray-600 text-base sm:text-lg lg:text-xl">Only this week. Don't miss...</p>
               </div>
@@ -167,6 +167,7 @@ const Home = () => {
         </div>
       </section>
       <Products />
+      <BestSeller />
     </div>
   );
 };
