@@ -203,6 +203,8 @@ const BestSeller = () => {
           ))}
         </div>
       </div>
+
+      {/* Cards */}
       <div className="flex justify-center items-center p-4">
         <div className="flex flex-col md:flex-row gap-4">
           {cards.map((card, index) => (
