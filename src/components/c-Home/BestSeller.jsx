@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Star } from "lucide-react";
+import { Link } from "react-router-dom";
 const BestSeller = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,14 +8,14 @@ const BestSeller = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://fakestoreapi.com/products');
+        const response = await fetch("https://fakestoreapi.com/products");
         const data = await response.json();
         //  (index 4-11)
         const selectedProducts = data.slice(4, 12);
         setProducts(selectedProducts);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
         setLoading(false);
       }
     };
@@ -30,7 +30,9 @@ const BestSeller = () => {
         <Star
           key={i}
           className={`w-3 h-3 ${
-            i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+            i < Math.floor(rating)
+              ? "text-yellow-400 fill-current"
+              : "text-gray-300"
           }`}
         />
       );
@@ -39,7 +41,7 @@ const BestSeller = () => {
   };
 
   const getDiscountLabel = (index) => {
-    const discounts = ['25%', '20%', '15%', '30%', '10%', '35%', '18%', '12%'];
+    const discounts = ["25%", "20%", "15%", "30%", "10%", "35%", "18%", "12%"];
     return discounts[index % discounts.length];
   };
 
@@ -58,15 +60,17 @@ const BestSeller = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">BEST SELLERS</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            BEST SELLERS
+          </h2>
           <p className="text-gray-600">Items with the seal of quality</p>
         </div>
         <Link
-      to="/shop"
-      className="inline-flex items-center px-6 py-2 bg-white rounded-full text-gray-600 hover:text-gray-800 font-medium border border-gray-300 hover:bg-gray-50 transition-colors duration-200 sm:px-4 sm:py-1.5 sm:text-sm"
-    >
-      View All 
-    </Link>
+          to="/shop"
+          className="inline-flex items-center px-6 py-2 bg-white rounded-full text-gray-600 hover:text-gray-800 font-medium border border-gray-300 hover:bg-gray-50 transition-colors duration-200 sm:px-4 sm:py-1.5 sm:text-sm"
+        >
+          View All
+        </Link>
       </div>
 
       {/* Products Layout */}
@@ -88,16 +92,18 @@ const BestSeller = () => {
                   {getDiscountLabel(index)}
                 </div>
               </div>
-              
+
               <div className="p-3 h-28">
                 <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
-                  {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
+                  {product.title.length > 40
+                    ? product.title.substring(0, 40) + "..."
+                    : product.title}
                 </h3>
-                
+
                 <div className="text-xs text-gray-500 mb-1 uppercase">
                   {product.category}
                 </div>
-                
+
                 <div className="flex items-center mb-1">
                   <div className="flex items-center mr-1">
                     {renderStars(product.rating.rate)}
@@ -106,7 +112,7 @@ const BestSeller = () => {
                     {product.rating.count}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <span className="text-xs text-gray-400 line-through">
@@ -122,19 +128,18 @@ const BestSeller = () => {
           ))}
         </div>
 
-         {/* Center Divider Image */}
-<div className="flex-shrink-0">
-  <div
-    className="w-60 h-full min-h-[480px] shadow-lg border-2 border-gray-200"
-    style={{
-      backgroundImage: 'url("./img/photo4.jpg")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    }}
-  ></div>
-</div>
-
+        {/* Center Divider Image */}
+        <div className="flex-shrink-0">
+          <div
+            className="w-60 h-full min-h-[480px] shadow-lg border-2 border-gray-200"
+            style={{
+              backgroundImage: 'url("./img/photo4.jpg")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></div>
+        </div>
 
         {/* Last 4 Products - 2x2 Grid */}
         <div className="grid grid-cols-2 flex-1 h-fit">
@@ -153,16 +158,18 @@ const BestSeller = () => {
                   {getDiscountLabel(index + 4)}
                 </div>
               </div>
-              
+
               <div className="p-3 h-28">
                 <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-xs">
-                  {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
+                  {product.title.length > 40
+                    ? product.title.substring(0, 40) + "..."
+                    : product.title}
                 </h3>
-                
+
                 <div className="text-xs text-gray-500 mb-1 uppercase">
                   {product.category}
                 </div>
-                
+
                 <div className="flex items-center mb-1">
                   <div className="flex items-center mr-1">
                     {renderStars(product.rating.rate)}
@@ -171,7 +178,7 @@ const BestSeller = () => {
                     {product.rating.count}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <span className="text-xs text-gray-400 line-through">
