@@ -79,17 +79,72 @@ const BestSeller = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.2, // Staggered delay for each card
+        delay: i * 0.2,
         duration: 0.6,
         ease: 'easeOut',
       },
     }),
   };
 
+  // Animation variants for products
+  const productVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 30,
+      scale: 0.9
+    },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.5,
+        ease: 'easeOut',
+      },
+    }),
+  };
+
+  // Container animation for staggered children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  // Center image animation
+  const centerImageVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.8,
+      rotateY: -15
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotateY: 0,
+      transition: {
+        delay: 0.5,
+        duration: 0.8,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <motion.div 
+        className="flex justify-between items-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">BEST SELLERS</h2>
           <p className="text-gray-600">Items with the seal of quality</p>
@@ -100,26 +155,49 @@ const BestSeller = () => {
         >
           View All
         </Link>
-      </div>
+      </motion.div>
 
-      {/* Products Layout */}
-      <div className="flex flex-col lg:flex-row items-center">
+      {/* Products Layout with Animation */}
+      <motion.div 
+        className="flex flex-col lg:flex-row items-center"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+      >
         {/* First 4 Products - 2x2 Grid */}
-        <div className="grid grid-cols-2 flex-1 h-fit">
+        <motion.div 
+          className="grid grid-cols-2 flex-1 h-fit"
+          variants={containerVariants}
+        >
           {products.slice(0, 4).map((product, index) => (
-            <div
+            <motion.div
               key={product.id}
-              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200"
+              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300"
+              variants={productVariants}
+              custom={index}
+              whileHover={{ 
+                scale: 1.02,
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
             >
               <div className="relative">
-                <img
+                <motion.img
                   src={product.image}
                   alt={product.title}
                   className="w-full h-32 object-contain p-3"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 />
-                <div className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium">
+                <motion.div 
+                  className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
+                >
                   {getDiscountLabel(index)}
-                </div>
+                </motion.div>
               </div>
 
               <div className="p-3 h-28">
@@ -151,13 +229,17 @@ const BestSeller = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-        {/* Center Divider Image */}
-        <div className="flex-shrink-0 w-full sm:w-full lg:w-60">
+        </motion.div>
+
+        {/* Center Divider Image with Animation */}
+        <motion.div 
+          className="flex-shrink-0 w-full sm:w-full lg:w-60"
+          variants={centerImageVariants}
+        >
           <div
-            className="h-40 sm:h-56 lg:h-full lg:min-h-[480px] shadow-lg border-2 border-gray-200"
+            className="h-40 sm:h-56 lg:h-full lg:min-h-[480px] shadow-lg border-2 border-gray-200 rounded-lg overflow-hidden"
             style={{
               backgroundImage: 'url("/img/photo4.jpg")',
               backgroundSize: 'cover',
@@ -165,24 +247,41 @@ const BestSeller = () => {
               backgroundRepeat: 'no-repeat',
             }}
           ></div>
-        </div>
+        </motion.div>
 
         {/* Last 4 Products - 2x2 Grid */}
-        <div className="grid grid-cols-2 flex-1 h-fit">
+        <motion.div 
+          className="grid grid-cols-2 flex-1 h-fit"
+          variants={containerVariants}
+        >
           {products.slice(4, 8).map((product, index) => (
-            <div
+            <motion.div
               key={product.id}
-              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200"
+              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300"
+              variants={productVariants}
+              custom={index + 4}
+              whileHover={{ 
+                scale: 1.02,
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
             >
               <div className="relative">
-                <img
+                <motion.img
                   src={product.image}
                   alt={product.title}
                   className="w-full h-32 object-contain p-3"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 />
-                <div className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium">
+                <motion.div 
+                  className="absolute top-2 left-2 bg-teal-500 text-white px-2 py-1 rounded text-xs font-medium"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
+                >
                   {getDiscountLabel(index + 4)}
-                </div>
+                </motion.div>
               </div>
 
               <div className="p-3 h-28">
@@ -214,40 +313,54 @@ const BestSeller = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* Cards with Animation */}
+      {/* Cards Section with Improved Animation */}
       <motion.div
-        className="flex justify-center items-center p-4"
+        className="flex justify-center items-center p-2 sm:p-4 w-full mt-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.3 }}
       >
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 lg:gap-6 w-full max-w-7xl">
           {cards.map((card, index) => (
             <motion.div
               key={index}
-              className="w-[392px] h-[218.63px] p-6 rounded-[7px] shadow-lg"
+              className="flex-1 w-full min-h-[160px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[220px] p-3 sm:p-4 md:p-6 rounded-lg shadow-lg relative overflow-hidden"
               style={{
                 backgroundImage: card.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                marginLeft: '15px',
               }}
               variants={cardVariants}
               custom={index}
+              whileHover={{ 
+                scale: 1.05,
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
             >
-              <div className="text-left">
-                <p className="text-green-600 font-bold">WEEKEND DISCOUNT 40%</p>
-                <h2 className="text-2xl font-semibold mt-2">{card.title}</h2>
-                <p className="text-gray-600 mt-1">{card.subtitle}</p>
-                <br />
+             
+              
+              <div className="relative z-10 text-left h-full flex flex-col justify-between">
+                <div>
+                  <p className="text-green-500 font-bold text-xs sm:text-sm md:text-base lg:text-lg">
+                    WEEKEND DISCOUNT 40%
+                  </p>
+                  <h2 className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold mt-1 text-white drop-shadow-lg">
+                    {card.title}
+                  </h2>
+                  <p className="text-gray-100 mt-1 text-xs sm:text-sm md:text-base drop-shadow-md">
+                    {card.subtitle}
+                  </p>
+                </div>
+                
                 <Link
                   to="/shop"
-                  className="mt-4 bg-gray-300 text-white py-2 px-4 rounded-[15px] hover:bg-gray-200"
+                  className="mt-3 sm:mt-4 md:mt-6 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 py-1.5 sm:py-2 px-3 sm:px-4 md:px-6 rounded-full transition-all duration-300 text-xs sm:text-sm md:text-base font-medium self-start shadow-md hover:shadow-lg transform hover:scale-105"
                 >
                   Shop Now
                 </Link>
