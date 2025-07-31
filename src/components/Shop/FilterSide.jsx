@@ -23,7 +23,6 @@ export default function FilterSide({
   useEffect(() => {
     if (showFilter) {
       document.body.style.overflow = "hidden";
-      // ننتظر فريم حتى يركّب العنصر ثم نفعل التحريك
       requestAnimationFrame(() => setPanelOpen(true));
     } else {
       document.body.style.overflow = "";
@@ -31,6 +30,20 @@ export default function FilterSide({
     }
     return () => {
       document.body.style.overflow = "";
+    };
+  }, [showFilter]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && showFilter) {
+        closePanel(); 
+      }
+    };
+  
+    window.addEventListener("resize", handleResize);
+    
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
   }, [showFilter]);
 
@@ -203,6 +216,7 @@ export default function FilterSide({
         </div>
       )}
 
+     
       <div className={`px-10 mt-10 hidden lg:block`}>
         <div className="mb-12">
           <h2 className="text-sm/[18px] font-semibold text-black-500 mb-5">
