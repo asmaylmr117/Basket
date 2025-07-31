@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -118,6 +119,20 @@ const FeaturedProducts = () => {
   }
 
   const currentProducts = products.slice(currentIndex, currentIndex + productsPerPage);
+
+  // Animation variants for blog articles
+  const articleVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2, // Staggered delay for each article
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    }),
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:py-12">
@@ -239,76 +254,65 @@ const FeaturedProducts = () => {
         </h3>
       </div>
 
-      {/* Blog Articles Section */}
-      <div className="mt-12 sm:mt-16">
+      {/* Blog Articles Section with Animation */}
+      <motion.div
+        className="mt-12 sm:mt-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Article 1 */}
-          <div className="group cursor-pointer">
-            <div className="relative overflow-hidden rounded-lg mb-4">
-              <img
-                src="https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg"
-                alt="Grocery bottles"
-                className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                product
-              </span>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
-                But I must explain to you how all this mistaken idea
-              </h3>
-              <p className="text-sm text-gray-500">
-                Jan 13 2025
-              </p>
-            </div>
-          </div>
-
-          {/* Article 2 */}
-          <div className="group cursor-pointer">
-            <div className="relative overflow-hidden rounded-lg mb-4">
-              <img
-                src="https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg"
-                alt="Coffee and typography"
-                className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-               product
-              </span>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
-                The Problem With Typefaces on the Web
-              </h3>
-              <p className="text-sm text-gray-500">
-                Jan 13 2025
-              </p>
-            </div>
-          </div>
-
-          {/* Article 3 */}
-          <div className="group cursor-pointer">
-            <div className="relative overflow-hidden rounded-lg mb-4">
-              <img
-                src="https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg"
-                alt="Colorful popsicle"
-                className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-               product
-              </span>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
-                English screen  With remote
-              </h3>
-              <p className="text-sm text-gray-500">
-                Jan 13 2025
-              </p>
-            </div>
-          </div>
+          {[
+            {
+              img: 'https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg',
+              alt: 'Grocery bottles',
+              category: 'product',
+              title: 'But I must explain to you how all this mistaken idea',
+              date: 'Jan 13 2025',
+            },
+            {
+              img: 'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg',
+              alt: 'Coffee and typography',
+              category: 'product',
+              title: 'The Problem With Typefaces on the Web',
+              date: 'Jan 13 2025',
+            },
+            {
+              img: 'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg',
+              alt: 'Colorful popsicle',
+              category: 'product',
+              title: 'English screen With remote',
+              date: 'Jan 13 2025',
+            },
+          ].map((article, index) => (
+            <motion.div
+              key={index}
+              className="group cursor-pointer"
+              variants={articleVariants}
+              custom={index}
+            >
+              <div className="relative overflow-hidden rounded-lg mb-4">
+                <img
+                  src={article.img}
+                  alt={article.alt}
+                  className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div>
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                  {article.category}
+                </span>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
+                  {article.title}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {article.date}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

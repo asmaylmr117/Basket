@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Products from '../../components/c-Home/Products';
 import BestSeller from '../../components/c-Home/BestSeller';
-import FeaturedProducts from '../../components/c-Home/Featured Products';
+import FeaturedProducts from '../../components/c-Home/Featured Products.jsx';
 
 const Home = () => {
   // Initialize countdown state with the starting values
@@ -62,18 +63,34 @@ const Home = () => {
     { value: countdown.seconds.toString().padStart(2, '0'), label: 'Seconds' },
   ];
 
+  // Animation variants for the hero background
+  const backgroundVariants = {
+    hidden: { opacity: 0, scale: 1.1 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
-   <div className="min-h-screen max-w-[95%] mx-auto">
+    <div className="min-h-screen max-w-[95%] mx-auto">
       <br />
       <br />
       <br />
       {/* Hero Section */}
-      <section
+      <motion.section
         className="relative bg-cover bg-center bg-no-repeat overflow-hidden shadow-md rounded-lg"
         style={{
-          backgroundImage:
-            'url("./img/Capture.PNG")',
+          backgroundImage: 'url("./img/Capture.PNG")',
         }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+        variants={backgroundVariants}
       >
         <div className="container mx-auto max-w-[1600px] px-4 sm:px-6 py-12 sm:py-16 lg:py-24 relative">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
@@ -108,14 +125,14 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Delivery Section */}
       <section className="py-6 sm:py-8 bg-red-50 mt-6 sm:mt-8 rounded-lg shadow-md">
         <div className="container mx-auto max-w-[1600px] px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 sm:space-y-6 lg:space-y-0">
             <div className="flex items-center justify-center lg:justify-start">
-              <h3 className="text-green-700 text-sm sm:text-base lg:text-3xl  font-semibold text-center lg:text-left">
+              <h3 className="text-green-700 text-sm sm:text-base lg:text-3xl font-semibold text-center lg:text-left">
                 100% Secure delivery without contacting the courier
               </h3>
             </div>
@@ -132,7 +149,6 @@ const Home = () => {
                 Shop Now
               </Link>
             </div>
-
           </div>
         </div>
       </section>
@@ -164,7 +180,6 @@ const Home = () => {
                 </React.Fragment>
               ))}
             </div>
-
           </div>
         </div>
       </section>

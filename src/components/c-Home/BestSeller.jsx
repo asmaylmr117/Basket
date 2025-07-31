@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const BestSeller = () => {
   const [products, setProducts] = useState([]);
@@ -70,6 +71,20 @@ const BestSeller = () => {
       backgroundImage: 'url(https://images.squarespace-cdn.com/content/v1/65a01343d4e0b521531eda0a/1704989563809-0TRDY2BNK4NWERBDLGAL/Large+scale+product+photography)',
     },
   ];
+
+  // Animation variants for the cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2, // Staggered delay for each card
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    }),
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -204,11 +219,16 @@ const BestSeller = () => {
         </div>
       </div>
 
-      {/* Cards */}
-      <div className="flex justify-center items-center p-4">
+      {/* Cards with Animation */}
+      <motion.div
+        className="flex justify-center items-center p-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+      >
         <div className="flex flex-col md:flex-row gap-4">
           {cards.map((card, index) => (
-            <div
+            <motion.div
               key={index}
               className="w-[392px] h-[218.63px] p-6 rounded-[7px] shadow-lg"
               style={{
@@ -217,6 +237,8 @@ const BestSeller = () => {
                 backgroundPosition: 'center',
                 marginLeft: '15px',
               }}
+              variants={cardVariants}
+              custom={index}
             >
               <div className="text-left">
                 <p className="text-green-600 font-bold">WEEKEND DISCOUNT 40%</p>
@@ -230,10 +252,10 @@ const BestSeller = () => {
                   Shop Now
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
