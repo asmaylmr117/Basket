@@ -124,6 +124,10 @@ function Shop() {
     []
   );
 
+  const getUnitPrice = (product) => {
+    return Number(product.discount ? product.finalPrice : product.price);
+  };
+
   const sortedProducts = useMemo(() => {
     const data = [...filteredProducts];
 

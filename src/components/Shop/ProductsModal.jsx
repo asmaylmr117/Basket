@@ -75,7 +75,7 @@ const ProductsModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 overflow-y-auto top-0">
-      <div className="bg-white w-full max-w-xl lg:max-w-5xl rounded-lg shadow-lg relative p-6 mt-[800px] sm:mt-[700px] lg:mt-[400px]">
+      <div className="bg-white w-full max-w-xl lg:max-w-5xl rounded-lg shadow-lg relative p-6 mt-[600px] sm:mt-[700px] lg:mt-[400px]">
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-800 z-20"
@@ -239,8 +239,11 @@ const ProductsModal = ({
                 <AiOutlineTags className="text-2xl text-gray-300" />
                 <span>Tags : </span>
                 <div className="flex">
-                  {product.tags.map((item) => (
-                    <span className="inline-block border mx-2 py-1 px-2 capitalize rounded">
+                  {product.tags.map((item, index) => (
+                    <span
+                      key={item + index}
+                      className="inline-block border mx-2 py-1 px-2 capitalize rounded"
+                    >
                       {item}
                     </span>
                   ))}
@@ -276,12 +279,12 @@ const ProductsModal = ({
             </button>
             <div
               ref={scrollRef}
-              className="flex overflow-x-auto gap-4 pb-2 scroll-smooth"
+              className="flex w-[100%] overflow-x-auto gap-4 pb-2 scroll-smooth"
             >
               {related.map((rel) => (
                 <div
                   key={rel.id}
-                  className="w-[200px] bg-white border rounded shadow-md p-3 hover:shadow-xl transition cursor-pointer"
+                  className="min-w-[200px] bg-white border rounded shadow-md p-3 hover:shadow-xl transition cursor-pointer"
                   onClick={() => {
                     setSelectedProduct(rel);
                     setIsModalOpen(true);
