@@ -1,10 +1,9 @@
-import React,{ useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import FilterSide from "../../components/Shop/FilterSide";
-import HeroSec from "../../components/Shop/heroSec";
+import HeroSec from "../../components/Shop/HeroSec";
 import SortProducts from "../../components/Shop/SortProducts";
 import ShopProducts from "../../components/Shop/ShopProducts";
-import { FaStar } from "react-icons/fa6";
-import { FaChevronRight , FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
 import axios from "axios";
 
@@ -18,14 +17,21 @@ function Shop() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("title"); // "title" | "price" | "rating" | "newest"
-  const [sortDir, setSortDir] = useState("asc");  // "asc" | "desc"
+  const [sortDir, setSortDir] = useState("asc"); // "asc" | "desc"
   const [filters, setFilters] = useState({
-    categories: [],    
-    brands: [],         
+    categories: [],
+    brands: [],
     priceMin: 0,
     priceMax: 9999,
-    inStock: null,      
+    inStock: null,
   });
+  const tagsMap = {
+    "men's clothing": ["casual", "formal", "spring", "summer", "new"],
+    "women's clothing": ["elegant", "comfortable", "party", "trendy", "sale"],
+    jewelery: ["gold", "silver", "gift", "luxury", "fashion"],
+    electronics: ["tech", "modern", "special", "smart", "practical"],
+    shoes: ["sporty", "comfortable", "running", "seasonal", "unisex"],
+  };
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -34,19 +40,26 @@ function Shop() {
       const response = await axios.get("https://fakestoreapi.com/products");
       const updatedProducts = response.data.map((prod, index) => {
         const discountValue =
-          topProductPercentages[Math.floor(Math.random()*10)];
+          topProductPercentages[Math.floor(Math.random() * 10)];
         const finalPrice = discountValue
           ? (prod.price * (1 - discountValue / 100)).toFixed(2)
           : prod.price.toFixed(2);
 
-        const brand=fakeBrands[index % fakeBrands.length];
-          
+        const brand = fakeBrands[index % fakeBrands.length];
+
+        const category = prod.category.toLowerCase();
+        const availableTags = tagsMap[category] || ["featured", "new"];
+        const randomTags = availableTags
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 2);
+
         return {
           ...prod,
           inStock: true,
           discount: discountValue,
           finalPrice,
-          brand,    
+          brand,
+          tags: randomTags,
         };
       });
       setAllProducts(updatedProducts);
@@ -55,7 +68,7 @@ function Shop() {
     } finally {
       setLoading(false);
     }
-    }, []);
+  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -66,7 +79,7 @@ function Shop() {
     [allProducts]
   );
 
-   const brands = useMemo(
+  const brands = useMemo(
     () => Array.from(new Set(allProducts.map((p) => p.brand))),
     [allProducts]
   );
@@ -82,30 +95,36 @@ function Shop() {
       const unitPrice = Number(p.discount ? p.finalPrice : p.price);
 
       const okCat =
-        filters.categories.length === 0 || filters.categories.includes(p.category);
+        filters.categories.length === 0 ||
+        filters.categories.includes(p.category);
 
       const okBrand =
         filters.brands.length === 0 || filters.brands.includes(p.brand);
 
-      const okPrice = unitPrice >= filters.priceMin && unitPrice <= filters.priceMax;
+      const okPrice =
+        unitPrice >= filters.priceMin && unitPrice <= filters.priceMax;
 
       const okStock =
-        filters.inStock === null ? true : filters.inStock ? p.inStock : !p.inStock;
+        filters.inStock === null
+          ? true
+          : filters.inStock
+          ? p.inStock
+          : !p.inStock;
 
-      return okCat && okBrand && okPrice && okStock ;
+      return okCat && okBrand && okPrice && okStock;
     });
   }, [allProducts, filters]);
 
-    useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [filters, sortBy, sortDir]);
 
   const collator = useMemo(
-  () => new Intl.Collator("en", { sensitivity: "base", numeric: true }),
-  []
-);
+    () => new Intl.Collator("en", { sensitivity: "base", numeric: true }),
+    []
+  );
 
-const sortedProducts = useMemo(() => {
+  const sortedProducts = useMemo(() => {
     const data = [...filteredProducts];
 
     data.sort((a, b) => {
@@ -145,12 +164,12 @@ const sortedProducts = useMemo(() => {
 
   const totalPages = Math.max(1, Math.ceil(sortedProducts.length / PAGE_SIZE));
 
-    const paginatedProducts = useMemo(() => {
+  const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE;
     return sortedProducts.slice(start, start + PAGE_SIZE);
   }, [sortedProducts, currentPage]);
 
-    const toggleArrayFilter = (key, value) => {
+  const toggleArrayFilter = (key, value) => {
     setFilters((prev) => {
       const exists = prev[key].includes(value);
       const nextArr = exists
@@ -160,7 +179,7 @@ const sortedProducts = useMemo(() => {
     });
   };
 
-   const setPrice = (min, max) => {
+  const setPrice = (min, max) => {
     setFilters((prev) => ({
       ...prev,
       priceMin: Number(min),
@@ -176,60 +195,66 @@ const sortedProducts = useMemo(() => {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <ImSpinner8 className="animate-spin text-7xl opacity-70" aria-label="Loading" />
+        <ImSpinner8
+          className="animate-spin text-7xl opacity-70"
+          aria-label="Loading"
+        />
       </div>
     );
   }
 
   return (
     <div className="container mx-auto p-4 block lg:flex my-20">
-      <FilterSide 
-          categories={categories}
-          brands={brands}
-          brandCounts={brandCounts}
-          filters={filters}
-          onToggleCategory={(cat) => toggleArrayFilter("categories", cat)}
-          onToggleBrand={(brand) => toggleArrayFilter("brands", brand)}
-          onSetPrice={setPrice}
-          onSetInStock={(val) => setFilters((p) => ({ ...p, inStock: val }))}
-        />
+      <FilterSide
+        categories={categories}
+        brands={brands}
+        brandCounts={brandCounts}
+        filters={filters}
+        onToggleCategory={(cat) => toggleArrayFilter("categories", cat)}
+        onToggleBrand={(brand) => toggleArrayFilter("brands", brand)}
+        onSetPrice={setPrice}
+        onSetInStock={(val) => setFilters((p) => ({ ...p, inStock: val }))}
+      />
       <div className="flex flex-col w-[100%]">
         <HeroSec />
-        <SortProducts productLength = {allProducts.length} sortBy={sortBy}
+        <SortProducts
+          productLength={allProducts.length}
+          sortBy={sortBy}
           sortDir={sortDir}
-          onChangeSort={handleSortChange}/>
+          onChangeSort={handleSortChange}
+        />
         <ShopProducts products={paginatedProducts} />
-          {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-2">
-          <button
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className="px-3 py-1 text-semibold rounded disabled:opacity-30"
-          >
-            <FaChevronLeft />
-          </button>
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-2">
             <button
-              key={p}
-              onClick={() => setCurrentPage(p)}
-              className={`px-3 py-1 text-semibold rounded-full ${
-                p === currentPage ? "bg-teal-500 text-white" : "bg-white"
-              }`}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 text-semibold rounded disabled:opacity-30"
             >
-              {p}
+              <FaChevronLeft />
             </button>
-          ))}
 
-          <button
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1 ext-semibold rounded-full disabled:opacity-50"
-          >
-            <FaChevronRight />
-          </button>
-        </div>
-      )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setCurrentPage(p)}
+                className={`px-3 py-1 text-semibold rounded-full ${
+                  p === currentPage ? "bg-teal-500 text-white" : "bg-white"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 ext-semibold rounded-full disabled:opacity-50"
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
