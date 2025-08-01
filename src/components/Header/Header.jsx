@@ -1,92 +1,103 @@
-
-import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import { LuMenu } from "react-icons/lu";
+import { IoCart, IoClose } from "react-icons/io5";
+import { IoRestaurant } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { navLinks } from "../../utils/HeaderLinks";
+import { AiOutlineShopping } from "react-icons/ai";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // دالة لإغلاق القائمة عند النقر على رابط
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
   };
 
-  const navLinks = [
-    { to: "/home", label: "Home " },
-    { to: "/shop", label: "Shop" },
-    { to: "/blog", label: "Blog" },
-    { to: "/contact", label: "Contact" },
-    { to: "/about", label: "About Us" },
-    { to: "/checkout", label: "Checkout" },
-  ];
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <h1 className="text-3xl font-extrabold text-gray-800">Basket</h1>
+    <header
+      className={`bg-white w-[100%] top-0 fixed z-30 ${
+        scrolled && "border-b-[0.5px] border-b-[#e0e0e0]"
+      }`}
+    >
+      <div className="max-w-screen-xl m-auto md:py-1 py-3 md:px-6 px-6">
+        <div className="flex justify-between items-center">
+          <div className="">
+            <Link to="/" className="flex items-center gap-2 text-[#35afa0]">
+              <IoCart className="text-4xl" />
+              <span className="font-black text-3xl">Basket</span>
+            </Link>
+          </div>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 ">
-          {navLinks.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
-                className={({ isActive }) =>
-                  `text-lg font-medium transition-colors duration-200 ${
-                    isActive ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-600 hover:text-blue-500'
-                  }`
-                }
+          <div className={`md:block ${isMenuOpen ? "block" : "hidden"}`}>
+            <nav aria-label="Global">
+              <ul className="flex flex-col w-[100%] h-[100vh] md:h-[65px] md:flex-row absolute md:relative md:top-0 top-[69px] md:bg-transparent bg-white/30 backdrop-blur-xl right-0 rounded-[5px] items-center transition-all duration-500">
+                {navLinks.map((item) => (
+                  <li key={item.title} className="lg:px-5 md:px-3 md:py-0 py-6">
+                    <Link
+                      to={item.href}
+                      className={`transition md:text-[15px] ${
+                        location.pathname === item.href
+                          ? "text-[#35afa0] font-semibold"
+                          : "md:text-[#787b77] text-[#292929] hover:text-[#35afa0]"
+                      }`}
+                      onClick={handleLinkClick} // إضافة الحدث لإغلاق القائمة
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex md:gap-8 gap-8 items-center">
+              <div className="w-fit relative">
+                <span className="absolute -top-2 -right-4 bg-[#35afa0] text-white text-[12px] px-2 rounded-full">
+                  0
+                </span>
+                <AiOutlineShopping size={28} className="text-[#35afa0]" />
+              </div>
+              <Link
+                className="rounded-[25px] bg-white border border-[#787b77] px-5 py-2.5 text-sm font-medium text-[#787b77] hover:bg-[#35afa0] hover:text-white hover:border-[#35afa0]"
+                to="#"
               >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+                Login
+              </Link>
+            </div>
 
-        {/* Hamburger Menu Button (Mobile) */}
-        <button
-          className="md:hidden text-gray-600 focus:outline-none"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
-            />
-          </svg>
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg">
-          <ul className="flex flex-col items-center py-4 space-y-4">
-            {navLinks.map((link) => (
-              <li key={link.to}>
-                <NavLink
-                  to={link.to}
-                  className={({ isActive }) =>
-                    `text-lg font-medium transition-colors duration-200 ${
-                      isActive ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500'
-                    }`
-                  }
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+            <div className="block md:hidden text-dark-500 mt-2">
+              <button
+                className="rounded transition"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {!isMenuOpen ? (
+                  <LuMenu size={30} className="text-[#35afa0]" />
+                ) : (
+                  <IoClose size={30} className="text-[#35afa0]" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
