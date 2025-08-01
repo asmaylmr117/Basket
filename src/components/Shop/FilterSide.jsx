@@ -1,6 +1,4 @@
-
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { IoClose } from "react-icons/io5";
 
 export default function FilterSide({
@@ -12,9 +10,7 @@ export default function FilterSide({
   onToggleBrand,
   onSetPrice,
   onSetInStock,
-  onClear,
 }) {
-
   const [showFilter, setShowFilter] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
   const [minLocal, setMinLocal] = useState(filters.priceMin);
@@ -37,12 +33,12 @@ export default function FilterSide({
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && showFilter) {
-        closePanel(); 
+        closePanel();
       }
     };
-  
+
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -55,7 +51,6 @@ export default function FilterSide({
     setTimeout(() => setShowFilter(false), 300);
   };
 
-  
   return (
     <div className="relative">
       <button
@@ -67,18 +62,20 @@ export default function FilterSide({
 
       {showFilter && (
         <div className="fixed inset-0 z-50 flex">
-           <div
+          <div
             className={`absolute inset-0 bg-black transition-opacity duration-300 ${
               panelOpen ? "bg-opacity-50 opacity-100" : "bg-opacity-0 opacity-0"
             }`}
             onClick={closePanel}
             aria-hidden="true"
           ></div>
-          <div  className={`relative left- top-0 w-72 max-w-full h-full bg-white p-6 shadow-lg transform transition-transform duration-300 overflow-auto
+          <div
+            className={`relative left- top-0 w-72 max-w-full h-full bg-white p-6 shadow-lg transform transition-transform duration-300 overflow-auto
               ${panelOpen ? "translate-x-0" : "-translate-x-full"}`}
             role="dialog"
             aria-modal="true"
-            aria-label="Filters">
+            aria-label="Filters"
+          >
             <button
               onClick={closePanel}
               className="absolute top-4 right-4 text-md font-bold font-semibold px-3 py-1 bg-gray-200 rounded-lg"
@@ -209,15 +206,14 @@ export default function FilterSide({
                 </ul>
               </div>
 
-               <div className="mb-12">
-          <img src="./img/advShop.png" className="w-[250px]"/>
-        </div>
+              <div className="mb-12">
+                <img src="./img/advShop.png" className="w-[250px]" />
+              </div>
             </div>
           </div>
         </div>
       )}
 
-     
       <div className={`px-10 mt-10 hidden lg:block`}>
         <div className="mb-12">
           <h2 className="text-sm/[18px] font-semibold text-black-500 mb-5">
@@ -230,8 +226,12 @@ export default function FilterSide({
                 className="py-1 font-normal text-sm text-stone-500 "
               >
                 <label>
-                  <input type="checkbox" className="mr-4 accent-teal-500" checked={filters.categories.includes(item)}
-                      onChange={() => onToggleCategory(item)} />
+                  <input
+                    type="checkbox"
+                    className="mr-4 accent-teal-500"
+                    checked={filters.categories.includes(item)}
+                    onChange={() => onToggleCategory(item)}
+                  />
                   {item}
                 </label>
               </li>
@@ -251,9 +251,12 @@ export default function FilterSide({
               >
                 <label className="flex justify-between items-center mb-2">
                   <div className="flex items-center">
-                    <input type="checkbox" className="mr-4 accent-teal-500"  
-                    checked={filters.brands.includes(item)}
-                     onChange={() => onToggleBrand(item)}/>
+                    <input
+                      type="checkbox"
+                      className="mr-4 accent-teal-500"
+                      checked={filters.brands.includes(item)}
+                      onChange={() => onToggleBrand(item)}
+                    />
                     <span className="text-gray-700">{item}</span>
                   </div>
                   <span className="text-gray-400 text-sm">
@@ -285,9 +288,9 @@ export default function FilterSide({
               <p className="text-xs text-gray-400 text-normal mb-1">To</p>
               <input
                 type="number"
-               value={maxLocal}
-               onChange={(e) => setMaxLocal(Number(e.target.value))}
-               onBlur={applyPrice}
+                value={maxLocal}
+                onChange={(e) => setMaxLocal(Number(e.target.value))}
+                onBlur={applyPrice}
                 className="w-[100%] border text-sm rounded px-2 py-1"
               />
             </label>
@@ -302,8 +305,13 @@ export default function FilterSide({
             <li className="py-1 font-normal text-sm text-stone-500">
               <label className="flex justify-between">
                 <div>
-                  <input type="radio" className="mr-4 accent-teal-500 border-none" name="availability-desktop" checked={filters.inStock === true}
-          onChange={() => onSetInStock(true)}/>
+                  <input
+                    type="radio"
+                    className="mr-4 accent-teal-500 border-none"
+                    name="availability-desktop"
+                    checked={filters.inStock === true}
+                    onChange={() => onSetInStock(true)}
+                  />
                   <span> In stock</span>
                 </div>
                 <span className="text-gray-400">(62)</span>
@@ -312,8 +320,13 @@ export default function FilterSide({
             <li className="py-1 font-normal text-sm text-stone-500">
               <label className="flex justify-between">
                 <div>
-                  <input type="radio" name="availability-desktop" className="mr-4 accent-teal-500" checked={filters.inStock === true}
-          onChange={() => onSetInStock(true)}/>
+                  <input
+                    type="radio"
+                    name="availability-desktop"
+                    className="mr-4 accent-teal-500"
+                    checked={filters.inStock === true}
+                    onChange={() => onSetInStock(true)}
+                  />
                   <span> Out of stock </span>
                 </div>
                 <span className="text-gray-400">(0)</span>
@@ -323,7 +336,7 @@ export default function FilterSide({
         </div>
 
         <div className="mb-12">
-          <img src="./img/advShop.png" className="w-[300px]"/>
+          <img src="./img/advShop.png" className="w-[300px]" />
         </div>
       </div>
     </div>
