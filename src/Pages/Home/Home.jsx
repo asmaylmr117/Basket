@@ -162,9 +162,9 @@ const Home = () => {
           <div className="px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between space-y-6 sm:space-y-8 lg:space-y-0 lg:space-x-8">
               <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:flex-1 lg:max-w-md">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600">
-                  Special Offers of the week!
-                </h2>
+               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 whitespace-nowrap">
+  Special Offers of the week!
+</h2>
                 <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
                   Ut placerat, magna quis porttitor vulputate, magna nunc auctor ante.
                 </p>
