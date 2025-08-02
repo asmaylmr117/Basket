@@ -3,10 +3,14 @@ import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import ProductsModal from '../Shop/ProductsModal'; // Adjust the import path as needed
 
 const BestSeller = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [quantity, setQuantity] = useState({}); // State for product quantities
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,8 +18,20 @@ const BestSeller = () => {
         const response = await axios.get('https://fakestoreapi.com/products');
         const data = response.data;
         // Select products (index 4-11)
-        const selectedProducts = data.slice(4, 12);
+        const selectedProducts = data.slice(4, 12).map(product => ({
+          ...product,
+          tags: ['new', 'sale', product.category], // Add tags for ProductsModal
+          finalPrice: product.price * 0.8, // Simulate discount price
+          discount: true,
+          extraImages: [product.image, product.image, product.image] // Mock extra images
+        }));
         setProducts(selectedProducts);
+        // Initialize quantity for each product
+        const initialQuantity = selectedProducts.reduce((acc, product) => ({
+          ...acc,
+          [product.id]: 1
+        }), {});
+        setQuantity(initialQuantity);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -25,6 +41,26 @@ const BestSeller = () => {
 
     fetchProducts();
   }, []);
+
+  // Function to handle quantity change
+  const changeQty = (productId, delta) => {
+    setQuantity(prev => ({
+      ...prev,
+      [productId]: Math.max(1, (prev[productId] || 1) + delta)
+    }));
+  };
+
+  // Function to open modal with selected product
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  // Function to close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   const renderStars = (rating) => {
     const stars = [];
@@ -138,6 +174,19 @@ const BestSeller = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Modal */}
+      {isModalOpen && selectedProduct && (
+        <ProductsModal
+          product={selectedProduct}
+          onClose={closeModal}
+          pro={products}
+          changeQty={changeQty}
+          quantity={quantity[selectedProduct.id] || 1}
+          setSelectedProduct={setSelectedProduct}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
+
       {/* Header */}
       <motion.div 
         className="flex justify-between items-center mb-8"
@@ -173,7 +222,7 @@ const BestSeller = () => {
           {products.slice(0, 4).map((product, index) => (
             <motion.div
               key={product.id}
-              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300"
+              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300 cursor-pointer"
               variants={productVariants}
               custom={index}
               whileHover={{ 
@@ -181,6 +230,7 @@ const BestSeller = () => {
                 y: -5,
                 transition: { duration: 0.2 }
               }}
+              onClick={() => openModal(product)} // Open modal on click
             >
               <div className="relative">
                 <motion.img
@@ -257,7 +307,7 @@ const BestSeller = () => {
           {products.slice(4, 8).map((product, index) => (
             <motion.div
               key={product.id}
-              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300"
+              className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-60 border-2 border-gray-200 hover:border-teal-300 cursor-pointer"
               variants={productVariants}
               custom={index + 4}
               whileHover={{ 
@@ -265,6 +315,7 @@ const BestSeller = () => {
                 y: -5,
                 transition: { duration: 0.2 }
               }}
+              onClick={() => openModal(product)} // Open modal on click
             >
               <div className="relative">
                 <motion.img
@@ -318,7 +369,7 @@ const BestSeller = () => {
         </motion.div>
       </motion.div>
 
-      {/* Cards Section with Improved Animation */}
+      {/* Cards Section - Unchanged from Original */}
       <motion.div
         className="flex justify-center items-center p-2 sm:p-4 w-full mt-8"
         initial="hidden"
@@ -343,8 +394,6 @@ const BestSeller = () => {
                 transition: { duration: 0.3 }
               }}
             >
-             
-              
               <div className="relative z-10 text-left h-full flex flex-col justify-between">
                 <div>
                   <p className="text-green-500 font-bold text-xs sm:text-sm md:text-base lg:text-lg">

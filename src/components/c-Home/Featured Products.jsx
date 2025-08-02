@@ -3,31 +3,35 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import ProductsModal from '../Shop/ProductsModal'; // Adjust the import path as needed
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [quantity, setQuantity] = useState({}); // State for product quantities
 
-  // تحديد عدد المنتجات حسب حجم الشاشة
+  
   const getProductsPerPage = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 640) return 1; // شاشة صغيرة
-      if (window.innerWidth < 768) return 2; // شاشة متوسطة صغيرة
-      if (window.innerWidth < 1024) return 3; // شاشة متوسطة
-      return 5; // شاشة كبيرة
+      if (window.innerWidth < 640) return 1; 
+      if (window.innerWidth < 768) return 2; 
+      if (window.innerWidth < 1024) return 3; 
+      return 5; 
     }
     return 5;
   };
 
   const [productsPerPage, setProductsPerPage] = useState(getProductsPerPage());
 
-  // تحديث عدد المنتجات عند تغيير حجم الشاشة
+ 
   useEffect(() => {
     const handleResize = () => {
       setProductsPerPage(getProductsPerPage());
-      setCurrentIndex(0); // إعادة تعيين الفهرس عند تغيير الحجم
+      setCurrentIndex(0); 
     };
 
     window.addEventListener('resize', handleResize);
@@ -61,8 +65,21 @@ const FeaturedProducts = () => {
         const response = await axios.get('https://fakestoreapi.com/products');
         const data = response.data;
         // أخذ المنتجات من بعد المنتج رقم 4 (index 4)
-        const filteredProducts = data.slice(4);
+        const filteredProducts = data.slice(4).map(product => ({
+          ...product,
+          tags: ['new', 'sale', product.category], // Add tags for ProductsModal
+          finalPrice: (productDiscounts[product.id]?.originalPrice || product.price) * 
+                      (1 - (productDiscounts[product.id]?.discount || 20) / 100), // Calculate final price
+          discount: true,
+          extraImages: [product.image, product.image, product.image] // Mock extra images
+        }));
         setProducts(filteredProducts);
+        // Initialize quantity for each product
+        const initialQuantity = filteredProducts.reduce((acc, product) => ({
+          ...acc,
+          [product.id]: 1
+        }), {});
+        setQuantity(initialQuantity);
       } catch (err) {
         setError('Failed to fetch products');
         console.error('Error fetching products:', err);
@@ -73,6 +90,26 @@ const FeaturedProducts = () => {
 
     fetchProducts();
   }, []);
+
+  // Function to handle quantity change
+  const changeQty = (productId, delta) => {
+    setQuantity(prev => ({
+      ...prev,
+      [productId]: Math.max(1, (prev[productId] || 1) + delta)
+    }));
+  };
+
+  // Function to open modal with selected product
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  // Function to close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   const nextSlide = () => {
     if (currentIndex + productsPerPage < products.length) {
@@ -99,6 +136,14 @@ const FeaturedProducts = () => {
   const truncateTitle = (title, maxLength = 35) => {
     return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
   };
+
+  // Map article IDs to product IDs
+  const articleProductIds = [11, 10, 13];
+
+  // Find products for articles
+  const articleProducts = articleProductIds.map(id => 
+    products.find(product => product.id === id) || {}
+  );
 
   if (loading) {
     return (
@@ -136,6 +181,19 @@ const FeaturedProducts = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:py-12">
+      {/* Modal */}
+      {isModalOpen && selectedProduct && (
+        <ProductsModal
+          product={selectedProduct}
+          onClose={closeModal}
+          pro={products}
+          changeQty={changeQty}
+          quantity={quantity[selectedProduct.id] || 1}
+          setSelectedProduct={setSelectedProduct}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8">
         <div className="mb-4 sm:mb-0">
@@ -181,7 +239,11 @@ const FeaturedProducts = () => {
             const pricing = getProductPricing(product.id);
             
             return (
-              <div key={product.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <div
+                key={product.id}
+                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden cursor-pointer"
+                onClick={() => openModal(product)} // Open modal on click
+              >
                 {/* Discount Badge */}
                 <div className="relative">
                   <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-teal-500 text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs sm:text-sm font-medium z-10">
@@ -264,53 +326,57 @@ const FeaturedProducts = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
-              img: 'https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg',
+              productId: 11,
               alt: 'Grocery bottles',
               category: 'product',
               title: 'But I must explain to you how all this mistaken idea',
               date: 'Jan 13 2025',
             },
             {
-              img: 'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg',
+              productId: 10,
               alt: 'Coffee and typography',
               category: 'product',
               title: 'The Problem With Typefaces on the Web',
               date: 'Jan 13 2025',
             },
             {
-              img: 'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg',
+              productId: 13,
               alt: 'Colorful popsicle',
               category: 'product',
               title: 'English screen With remote',
               date: 'Jan 13 2025',
             },
-          ].map((article, index) => (
-            <motion.div
-              key={index}
-              className="group cursor-pointer"
-              variants={articleVariants}
-              custom={index}
-            >
-              <div className="relative overflow-hidden rounded-lg mb-4">
-                <img
-                  src={article.img}
-                  alt={article.alt}
-                  className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div>
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                  {article.category}
-                </span>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
-                  {article.title}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {article.date}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          ].map((article, index) => {
+            const product = articleProducts[index];
+            return (
+              <motion.div
+                key={index}
+                className="group cursor-pointer"
+                variants={articleVariants}
+                custom={index}
+                onClick={() => product && openModal(product)} 
+              >
+                <div className="relative overflow-hidden rounded-lg mb-4">
+                  <img
+                    src={product?.image || 'https://via.placeholder.com/400'} 
+                    alt={article.alt}
+                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div>
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    {article.category}
+                  </span>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    {article.date}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </motion.div>
     </div>
