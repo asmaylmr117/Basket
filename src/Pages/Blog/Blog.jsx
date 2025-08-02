@@ -18,12 +18,12 @@ const BlogPage = () => {
               </div>
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                  But I must explain to you how all this mistaken idea
+                  5 Essential Wardrobe Pieces Every Woman Needs in 2025
                 </h2>
                 <div className="flex items-center text-sm text-gray-500 mb-4 space-x-4">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
-                    Jan 17, 2020
+                    Jan 17, 2025
                   </div>
                   <div className="flex items-center">
                     <User className="w-4 h-4 mr-1" />
@@ -31,10 +31,10 @@ const BlogPage = () => {
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium, totam rem aperiam, eaque
-                  ipsa quae ab illo inventore veritatis et quasi architecto
-                  beatae vitae dicta sunt explicabo.
+                  Discover the timeless pieces that will elevate your style and
+                  create endless outfit possibilities. From the perfect little
+                  black dress to versatile blazers, we'll guide you through
+                  building a capsule wardrobe that works for every occasion.
                 </p>
               </div>
             </article>
@@ -46,12 +46,12 @@ const BlogPage = () => {
               </div>
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                  The Problem With Typefaces on the Web
+                  Spring 2025 Fashion Trends: What's Hot This Season
                 </h2>
                 <div className="flex items-center text-sm text-gray-500 mb-4 space-x-4">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
-                    Jan 17, 2020
+                    Jan 17, 2025
                   </div>
                   <div className="flex items-center">
                     <User className="w-4 h-4 mr-1" />
@@ -59,10 +59,10 @@ const BlogPage = () => {
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium, totam rem aperiam, eaque
-                  ipsa quae ab illo inventore veritatis et quasi architecto
-                  beatae vitae dicta sunt explicabo.
+                  From vibrant pastels to sustainable fabrics, explore the
+                  fashion trends dominating this spring season. Learn how to
+                  incorporate these fresh styles into your everyday wardrobe
+                  while staying true to your personal aesthetic.
                 </p>
               </div>
             </article>
@@ -97,9 +97,9 @@ const BlogPage = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-900 leading-tight">
-                      But I must explain to you how all this mistaken idea
+                      5 Essential Wardrobe Pieces Every Woman Needs in 2025
                     </h4>
-                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2020</p>
+                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2025</p>
                   </div>
                 </div>
 
@@ -113,9 +113,9 @@ const BlogPage = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-900 leading-tight">
-                      The Problem With Typefaces on the Web
+                      Spring 2025 Fashion Trends: What's Hot This Season
                     </h4>
-                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2020</p>
+                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2025</p>
                   </div>
                 </div>
 
@@ -129,9 +129,9 @@ const BlogPage = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-900 leading-tight">
-                      English Breakfast Tea With Light Cream
+                      Sustainable Fashion: Building an Eco-Friendly Closet
                     </h4>
-                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2020</p>
+                    <p className="text-xs text-gray-500 mt-1">Jan 17, 2025</p>
                   </div>
                 </div>
               </div>
@@ -196,13 +196,13 @@ const BlogPage = () => {
                 </p>
                 <p className="border border-gray-100 w-fit px-2 py-1">food</p>
                 <p className="border border-gray-100 w-fit px-2 py-1">
-                  grocery
+                  clothes
                 </p>
                 <p className="border border-gray-100 w-fit px-2 py-1">
                   klbtheme
                 </p>
                 <p className="border border-gray-100 w-fit px-2 py-1">
-                  organic
+                  cotton
                 </p>
                 <p className="border border-gray-100 w-fit px-2 py-1">shop</p>
                 <p className="border border-gray-100 w-fit px-2 py-1">
