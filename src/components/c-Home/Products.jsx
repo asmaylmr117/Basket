@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
  import ProductsModal from '../Shop/ProductsModal'; 
-
+ import { Link } from 'react-router-dom';
 // Mock Link component for demo
-const Link = ({ to, children, className }) => (
-  <a href={to} className={className}>{children}</a>
-);
+
 
 const Products = () => {
   const [topProducts, setTopProducts] = useState([]);
