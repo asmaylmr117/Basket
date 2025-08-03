@@ -1,15 +1,31 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function HeroSec() {
+  const backgroundVariants = {
+    hidden: { opacity: 0, scale: 1.1 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: "easeOut",
+      },
+    },
+  };
+  
   return (
-    <section
+    <motion.section
       className="relative mx-auto overflow-hidden shadow-md rounded-lg w-full
-      bg-center bg-cover bg-no-repeat"
+          bg-center bg-cover bg-no-repeat"
       style={{
         backgroundImage: 'url("./img/HeroShop3.png")',
       }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.3 }}
+      variants={backgroundVariants}
     >
       <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-24 relative">
         <div className="flex flex-column justify-center items-center">
@@ -28,6 +44,6 @@ export default function HeroSec() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

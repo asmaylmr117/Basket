@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Products from '../../components/c-Home/Products';
-import BestSeller from '../../components/c-Home/BestSeller';
-import FeaturedProducts from '../../components/c-Home/Featured Products.jsx';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import Products from "../../components/c-Home/Products";
+import BestSeller from "../../components/c-Home/BestSeller";
+import FeaturedProducts from "../../components/c-Home/Featured Products.jsx";
 
 const Home = () => {
   // Initialize countdown state with the starting values
@@ -57,10 +57,10 @@ const Home = () => {
 
   // Format countdown for display
   const countdownDisplay = [
-    { value: countdown.days.toString().padStart(2, '0'), label: 'Days' },
-    { value: countdown.hours.toString().padStart(2, '0'), label: 'Hours' },
-    { value: countdown.minutes.toString().padStart(2, '0'), label: 'Minutes' },
-    { value: countdown.seconds.toString().padStart(2, '0'), label: 'Seconds' },
+    { value: countdown.days.toString().padStart(2, "0"), label: "Days" },
+    { value: countdown.hours.toString().padStart(2, "0"), label: "Hours" },
+    { value: countdown.minutes.toString().padStart(2, "0"), label: "Minutes" },
+    { value: countdown.seconds.toString().padStart(2, "0"), label: "Seconds" },
   ];
 
   // Animation variants for the hero background
@@ -71,7 +71,7 @@ const Home = () => {
       scale: 1,
       transition: {
         duration: 1,
-        ease: 'easeOut',
+        ease: "easeOut",
       },
     },
   };
@@ -82,7 +82,7 @@ const Home = () => {
         <br />
         <br />
         <br />
-        
+
         {/* Hero Section */}
         <motion.section
           className="relative bg-cover bg-center bg-no-repeat overflow-hidden shadow-md rounded-lg mb-6 sm:mb-8"
@@ -110,12 +110,16 @@ const Home = () => {
                     Specialist in the
                     <span className="block text-gray-900">Product store</span>
                   </h1>
-                  <p className="text-gray-600 text-base sm:text-lg lg:text-xl">Only this week. Don't miss...</p>
+                  <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
+                    Only this week. Don't miss...
+                  </p>
                 </div>
 
                 <div className="flex items-center space-x-3 sm:space-x-6">
                   <span className="text-gray-600 text-sm sm:text-lg">from</span>
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">$7.99</span>
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">
+                    $7.99
+                  </span>
                 </div>
                 <br />
                 <Link
@@ -162,14 +166,15 @@ const Home = () => {
           <div className="px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between space-y-6 sm:space-y-8 lg:space-y-0 lg:space-x-8">
               <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:flex-1 lg:max-w-md">
-               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 whitespace-nowrap">
-  Special Offers of the week!
-</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 whitespace-nowrap">
+                  Special Offers of the week!
+                </h2>
                 <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
-                  Ut placerat, magna quis porttitor vulputate, magna nunc auctor ante.
+                  Ut placerat, magna quis porttitor vulputate, magna nunc auctor
+                  ante.
                 </p>
               </div>
-              
+
               <div className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
                 {countdownDisplay.map((item, index) => (
                   <React.Fragment key={index}>
@@ -184,7 +189,9 @@ const Home = () => {
 
                     {/* Show ':' between items but NOT after the last one */}
                     {index < countdownDisplay.length - 1 && (
-                      <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-700 mx-1">:</span>
+                      <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-700 mx-1">
+                        :
+                      </span>
                     )}
                   </React.Fragment>
                 ))}
@@ -193,7 +200,7 @@ const Home = () => {
           </div>
         </section>
       </div>
-      
+
       {/* Components outside container to maintain their own layout */}
       <Products />
       <BestSeller />

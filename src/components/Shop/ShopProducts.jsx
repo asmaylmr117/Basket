@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import ProductsModal from "./ProductsModal";
+import { motion } from "framer-motion";
 
 const ShopProducts = ({ products = [] }) => {
   const [quantities, setQuantities] = useState({});
@@ -66,20 +67,24 @@ const ShopProducts = ({ products = [] }) => {
   return (
     <div className="mb-8 sm:mb-12 border-1 border-gray-200 rounded-lg">
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-0">
-        {products.map((product) => {
+        {products.map((product , index) => {
           const qty = quantities[product.id] ?? 1;
           const unit = Number(
             product.discount ? product.finalPrice : product.price
           );
           const subTotal = (unit * qty).toFixed(2);
           return (
-            <div
+            <motion.div
               key={product.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              className="cursor-pointer bg-white border border-gray-200 p-5 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
               onClick={() => {
                 setSelectedProduct(product);
                 setIsModalOpen(true);
               }}
-              className="cursor-pointer bg-white border border-gray-200 p-5 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
             >
               <div className="h-30 sm:h-48 mb-5 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden relative">
                 <img
@@ -161,7 +166,7 @@ const ShopProducts = ({ products = [] }) => {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
