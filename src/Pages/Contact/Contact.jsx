@@ -64,7 +64,7 @@ function Contact() {
               />
             </div>
             <input
-              type="text"
+              type="number"
               placeholder="Phone number"
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
             />
