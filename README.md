@@ -34,16 +34,16 @@ This project is an e-commerce store developed using React.js as part of the SEF 
 
 ### Frontend
 - **Framework:** React.js(vite)
-- **Styling & UI:** Choose one of the following:
+- **Styling & UI:** 
   - CSS Modules
   - Tailwind CSS
   - Styled Components
-- **State Management:** Choose one of the following:
+- **State Management:** 
   - React Context API
-  - **API & Data Fetching:** Choose one of the following:
+  - **API & Data Fetching:** 
     - Axios
  ### Backend (Optional for Advanced Teams)
-- **Data Storage & Persistence:** Choose one of the following:
+- **Data Storage & Persistence:** 
   - LocalStorage/SessionStorage (for cart & user preferences)
   ### Performance & Optimization
 - Lazy Loading with React Suspense
