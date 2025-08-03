@@ -144,9 +144,8 @@ function Header() {
 
   return (
     <header
-      className={`bg-white w-full top-0 fixed z-30 ${
-        scrolled && "border-b-[0.5px] border-b-[#e0e0e0]"
-      }`}
+      className={`bg-white w-full top-0 fixed z-30 ${scrolled && "border-b-[0.5px] border-b-[#e0e0e0]"
+        }`}
     >
       <div className="max-w-screen-xl m-auto md:py-1 py-3 md:px-6 px-6">
         <div className="flex justify-between items-center">
@@ -168,11 +167,10 @@ function Header() {
                   <li key={item.title} className="lg:px-5 md:px-3 md:py-0 py-6">
                     <Link
                       to={item.href}
-                      className={`transition md:text-[15px] ${
-                        location.pathname === item.href
+                      className={`transition md:text-[15px] ${location.pathname === item.href
                           ? "text-[#35afa0] font-semibold"
                           : "md:text-[#787b77] text-[#292929] hover:text-[#35afa0]"
-                      }`}
+                        }`}
                       onClick={handleLinkClick}
                     >
                       {item.title}
@@ -230,11 +228,20 @@ function Header() {
 
       {showSignInForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-80">
+          <div className="relative bg-white rounded-lg shadow-xl p-6 w-80 text-black">
+            {/* Exit Button */}
+            <button
+              onClick={() => setShowSignInForm(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
+              aria-label="Close"
+            >
+              &times;
+            </button>
+
             {!isLoggedIn ? (
               !isSignUpForm ? (
                 <>
-                  <h2 className="text-xl font-semibold mb-4 text-center dark:text-white">
+                  <h2 className="text-xl font-semibold mb-4 text-center">
                     Sign in to your account
                   </h2>
                   <p className="text-center mb-4">
@@ -255,7 +262,7 @@ function Header() {
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium dark:text-white text-gray-700"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         Email
                       </label>
@@ -265,14 +272,14 @@ function Header() {
                         value={email}
                         placeholder="Enter your email"
                         onChange={(e) => setEmail(e.target.value)}
-                        className="mt-1 dark:bg-gray-800 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
+                        className="mt-1 block w-full h-10 rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="password"
-                        className="block text-sm font-medium dark:text-white text-gray-700"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         Password
                       </label>
@@ -282,7 +289,7 @@ function Header() {
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 dark:bg-gray-800 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
+                        className="mt-1 block w-full h-10 rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
                         required
                       />
                     </div>
@@ -301,7 +308,7 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <h2 className="text-xl font-semibold mb-4 text-center dark:text-white">
+                  <h2 className="text-xl font-semibold mb-4 text-center">
                     Create your account
                   </h2>
                   <p className="text-center mb-4">
@@ -322,7 +329,7 @@ function Header() {
                     <div>
                       <label
                         htmlFor="username"
-                        className="block text-sm font-medium dark:text-white text-gray-700"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         User name
                       </label>
@@ -332,14 +339,14 @@ function Header() {
                         value={username}
                         placeholder="Enter your username"
                         onChange={(e) => setUsername(e.target.value)}
-                        className="mt-1 dark:bg-gray-800 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
+                        className="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium dark:text-white text-gray-700"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         Email address
                       </label>
@@ -349,14 +356,14 @@ function Header() {
                         value={email}
                         placeholder="Enter your email"
                         onChange={(e) => setEmail(e.target.value)}
-                        className="mt-1 dark:bg-gray-800 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
+                        className="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="password"
-                        className="block text-sm font-medium dark:text-white text-gray-700"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         Password
                       </label>
@@ -366,7 +373,7 @@ function Header() {
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 dark:bg-gray-800 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
+                        className="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-[#35afa0] focus:ring-[#35afa0] pl-3"
                         required
                       />
                     </div>
@@ -400,6 +407,8 @@ function Header() {
           </div>
         </div>
       )}
+
+
     </header>
   );
 }
