@@ -27,7 +27,6 @@ function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { cart } = useContext(CartContext);
-  // const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     const onScroll = () => {
@@ -181,12 +180,12 @@ function Header() {
 
           <div className="flex items-center gap-4">
             <div className="flex md:gap-8 gap-8 items-center">
-              <div className="w-fit relative">
+              <Link className="w-fit relative" to="/checkout  ">
                 <span className="absolute -top-2 -right-4 bg-[#35afa0] text-white text-[12px] px-2 rounded-full">
                   {cart.length}
                 </span>
                 <AiOutlineShopping size={28} className="text-[#35afa0]" />
-              </div>
+              </Link>
               {!isLoggedIn ? (
                 <button
                   className="rounded-[25px] bg-white border border-[#787b77] px-5 py-2.5 text-sm font-medium text-[#787b77] hover:bg-[#35afa0] hover:text-white hover:border-[#35afa0]"

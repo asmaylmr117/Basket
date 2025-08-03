@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
 
   // Load cart from localStorage on first load
   useEffect(() => {
-    setCart(CartStorage.getCart());
+    setCart([...CartStorage.getCart()]); 
   }, []);
 
   const addToCart = (product, quantity = 1) => {
@@ -22,17 +22,17 @@ export const CartProvider = ({ children }) => {
       CartStorage.addItem(product, quantity);
     }
 
-    setCart(CartStorage.getCart());
+    setCart([...CartStorage.getCart()]);
   };
 
   const updateQuantity = (productId, newQuantity) => {
     CartStorage.updateQuantity(productId, newQuantity);
-    setCart(CartStorage.getCart());
+    setCart([...CartStorage.getCart()]);
   };
 
   const removeFromCart = (productId) => {
     CartStorage.removeItem(productId);
-    setCart(CartStorage.getCart());
+    setCart([...CartStorage.getCart()]);
   };
 
   const clearCart = () => {

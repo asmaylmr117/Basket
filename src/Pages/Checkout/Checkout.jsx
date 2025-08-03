@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import axios from "axios";
+import { CartContext } from "../../Context/CartContext";
+import { ImSpinner8 } from "react-icons/im";
 
 function Checkout() {
   // State to hold cart items from localStorage
   const [cartItems, setCartItems] = useState([]);
+  const { cart, updateQuantity, removeFromCart } = useContext(CartContext);
   // State to hold full product data after fetching from API
   const [products, setProducts] = useState([]);
   // State to manage loading state
@@ -18,14 +21,19 @@ function Checkout() {
   // Fetch product data from API for each cart item
   useEffect(() => {
     const fetchProducts = async () => {
+      if (cart.length === 0) {
+        setProducts([]);
+        return;
+      }
+  
       try {
-        const promises = cartItems.map((item) =>
+        const promises = cart.map((item) =>
           axios.get(`https://fakestoreapi.com/products/${item.id}`)
         );
         const responses = await Promise.all(promises);
         const productData = responses.map((res, index) => ({
           ...res.data,
-          quantity: cartItems[index].quantity,
+          quantity: cart[index].quantity,
         }));
         setProducts(productData);
         setLoading(false);
@@ -33,19 +41,39 @@ function Checkout() {
         console.error("Failed to fetch products:", error);
       }
     };
-
-    if (cartItems.length > 0) {
+  
+    if (cart.length > 0) {
       fetchProducts();
     } else {
+      setProducts([]);
       setLoading(false);
     }
-  }, [cartItems]);
-
-  // Calculate total cost
+  }, [cart]);
+  
+  // // Calculate total cost
   const total = products.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const handleDecrease = (product) => {
+    if (product.quantity > 1) {
+      updateQuantity(product.id, product.quantity - 1);
+    } else {
+      removeFromCart(product.id);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ImSpinner8
+          className="animate-spin text-7xl opacity-70"
+          aria-label="Loading"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white min-h-screen py-16 px-4 md:px-12">
@@ -274,9 +302,15 @@ function Checkout() {
                   className="w-16 h-16 object-contain rounded-md"
                 />
                 {/* Quantity badge */}
-                <div className="absolute top-[-8px] right-[-8px] bg-gray-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                <div className="absolute top-[-8px] left-[-8px] bg-gray-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
                   {product.quantity}
                 </div>
+
+                <div className="absolute bottom-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cursor-pointer"
+                 onClick={() => handleDecrease(product)}>
+                  -
+                </div>
+
               </div>
               <div className="flex-1 text-sm">
                 <p className="font-medium text-gray-800">{product.title}</p>
