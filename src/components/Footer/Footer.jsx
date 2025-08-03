@@ -186,7 +186,7 @@ function Footer() {
       <div
         className="mt-12 py-6 px-20"
         style={{
-          backgroundImage: "url('/assets/images/copyrightBg1.png')",
+
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
