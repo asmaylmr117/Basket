@@ -82,52 +82,52 @@ const Home = () => {
         <br />
         <br />
         <br />
-        
-        {/* Hero Section */}
-        <motion.section
-          className="relative bg-cover bg-center bg-no-repeat overflow-hidden shadow-md rounded-lg mb-6 sm:mb-8"
-          style={{
-            backgroundImage: 'url("./img/Capture.PNG")',
-          }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.3 }}
-          variants={backgroundVariants}
-        >
-          <div className="px-4 sm:px-6 py-12 sm:py-16 lg:py-24 relative">
-            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-              <div className="space-y-6 sm:space-y-8">
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                    <span className="bg-green-100 text-green-800 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
-                      EXCLUSIVE OFFER
-                    </span>
-                    <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
-                      20% OFF
-                    </span>
-                  </div>
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                    Specialist in the
-                    <span className="block text-gray-900">Product store</span>
-                  </h1>
-                  <p className="text-gray-600 text-base sm:text-lg lg:text-xl">Only this week. Don't miss...</p>
-                </div>
 
-                <div className="flex items-center space-x-3 sm:space-x-6">
-                  <span className="text-gray-600 text-sm sm:text-lg">from</span>
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">$7.99</span>
-                </div>
-                <br />
-                <Link
-                  to="/shop"
-                  className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300"
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </div>
+        {/* Hero Section */}
+<motion.section
+  className="relative bg-cover bg-center bg-no-repeat overflow-hidden shadow-md rounded-lg mb-6 sm:mb-8"
+  style={{
+    backgroundImage: 'url("./img/Capture.PNG")',
+  }}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={backgroundVariants}
+>
+  <div className="px-2 sm:px-6 py-12 sm:py-16 lg:py-24 relative">
+    <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+      <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+            <span className="bg-green-100 text-green-800 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
+              EXCLUSIVE OFFER
+            </span>
+            <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
+              20% OFF
+            </span>
           </div>
-        </motion.section>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            Specialist in the
+            <span className="block text-gray-900">Product store</span>
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg lg:text-xl">Only this week. Don't miss...</p>
+        </div>
+
+        <div className="flex items-center space-x-3 sm:space-x-6">
+          <span className="text-gray-600 text-sm sm:text-lg">from</span>
+          <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">$7.99</span>
+        </div>
+        <br />
+        <Link
+          to="/shop"
+          className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300"
+        >
+          Shop Now
+        </Link>
+      </div>
+    </div>
+  </div>
+</motion.section>
 
         {/* Delivery Section */}
         <section className="py-6 sm:py-8 bg-red-50 rounded-lg shadow-md mb-6 sm:mb-8">
@@ -162,14 +162,14 @@ const Home = () => {
           <div className="px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between space-y-6 sm:space-y-8 lg:space-y-0 lg:space-x-8">
               <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:flex-1 lg:max-w-md">
-               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 whitespace-nowrap">
-  Special Offers of the week!
-</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 whitespace-nowrap">
+                  Special Offers of the week!
+                </h2>
                 <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
                   Ut placerat, magna quis porttitor vulputate, magna nunc auctor ante.
                 </p>
               </div>
-              
+
               <div className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
                 {countdownDisplay.map((item, index) => (
                   <React.Fragment key={index}>
@@ -193,7 +193,7 @@ const Home = () => {
           </div>
         </section>
       </div>
-      
+
       {/* Components outside container to maintain their own layout */}
       <Products />
       <BestSeller />

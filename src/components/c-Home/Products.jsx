@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { motion } from 'framer-motion';
- import ProductsModal from '../Shop/ProductsModal'; 
- import { Link } from 'react-router-dom';
-// Mock Link component for demo
-
+import ProductsModal from '../Shop/ProductsModal'; 
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Products = () => {
   const [topProducts, setTopProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  // State للمودال
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantities, setQuantities] = useState({});
@@ -46,24 +44,20 @@ const Products = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // استخدام fetch بدلاً من axios
-        const response = await fetch('https://fakestoreapi.com/products');
-        const data = await response.json();
+        const response = await axios.get('https://fakestoreapi.com/products');
+        const data = response.data;
         
-        // تحويل البيانات لتتوافق مع المودال
         const productsData = data.map(product => ({
           ...product,
-          // إضافة خصائص إضافية إذا كانت مطلوبة للمودال
           tags: product.category ? [product.category] : [],
-          extraImages: [], // يمكنك إضافة صور إضافية هنا إذا توفرت
-          discount: false, // يمكنك إضافة منطق الخصم هنا
+          extraImages: [],
+          discount: false,
           finalPrice: product.price
         }));
         
         setTopProducts(productsData.slice(0, 5));
         setAllProducts(productsData);
         
-        // تهيئة الكميات
         const initialQuantities = {};
         productsData.forEach(product => {
           initialQuantities[product.id] = 1;
@@ -73,7 +67,6 @@ const Products = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
 
-        // بيانات احتياطية
         const fallbackData = [
           { 
             id: 1, 
@@ -156,24 +149,25 @@ const Products = () => {
     fetchData();
   }, []);
 
-  // دالة فتح المودال
   const handleProductClick = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
 
-  // دالة إغلاق المودال
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
 
-  // دالة تغيير الكمية
   const changeQty = (productId, change) => {
     setQuantities(prev => ({
       ...prev,
       [productId]: Math.max(1, (prev[productId] || 1) + change)
     }));
+  };
+
+  const handleShopNowClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const nextProducts = () => {
@@ -202,14 +196,25 @@ const Products = () => {
   const totalPages = Math.ceil(allProducts.length / productsPerPage);
   const currentPage = Math.floor(currentIndex / productsPerPage);
 
-  // Example percentages for top products
   const topProductPercentages = [25, 30, 20, 20, 25];
+
+  // Compute className for buttons to avoid syntax issues
+  const prevButtonClasses = `hidden sm:block absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${
+    currentIndex === 0
+      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+      : 'bg-gray-800 text-white hover:bg-gray-700 hover:scale-110'
+  }`;
+
+  const nextButtonClasses = `hidden sm:block absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${
+    currentIndex + productsPerPage >= allProducts.length
+      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+      : 'bg-gray-800 text-white hover:bg-gray-700 hover:scale-110'
+  }`;
 
   return (
     <div className="container mx-auto p-2 sm:p-4 max-w-7xl">
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">Our Products</h1>
 
-      {/* Section 1: Top 5 Products */}
       <div className="mb-8 sm:mb-12 border-2 border-red-400">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
           {topProducts.map((product, index) => (
@@ -258,9 +263,7 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Section 2: Marketing Banners */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
-        {/* Card 1 */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -275,7 +278,8 @@ const Products = () => {
             <br />
             <Link
               to="/shop"
-              className=" bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
+              className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
+              onClick={handleShopNowClick}
             >
               Shop Now
             </Link>
@@ -283,7 +287,6 @@ const Products = () => {
           <div className="absolute inset-0 bg-white opacity-10 z-0"></div>
         </motion.div>
 
-        {/* Card 2 */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -298,7 +301,8 @@ const Products = () => {
             <br />
             <Link
               to="/shop"
-              className=" bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
+              className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full transition-colors duration-300 w-full sm:w-auto"
+              onClick={handleShopNowClick}
             >
               Shop Now
             </Link>
@@ -307,16 +311,12 @@ const Products = () => {
         </motion.div>
       </div>
 
-      {/* Section 3: All Products with Navigation */}
       <div className="mb-6 sm:mb-8">
         <div className="relative">
           <button
             onClick={prevProducts}
             disabled={currentIndex === 0}
-            className={`hidden sm:block absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${currentIndex === 0
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-gray-800 text-white hover:bg-gray-700 hover:scale-110'
-              }`}
+            className={prevButtonClasses}
             style={{ marginLeft: '-15px' }}
           >
             <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,13 +325,14 @@ const Products = () => {
           </button>
 
           <div className="px-0 sm:px-8 lg:px-10">
-            <div className={`grid gap-3 sm:gap-4 ${productsPerPage === 1 ? 'grid-cols-1' :
-                productsPerPage === 2 ? 'grid-cols-2' :
-                  productsPerPage === 3 ? 'grid-cols-3' :
-                    productsPerPage === 4 ? 'grid-cols-4' :
-                      productsPerPage === 5 ? 'grid-cols-5' :
-                        'grid-cols-6'
-              }`}>
+            <div className={`grid gap-3 sm:gap-4 ${
+              productsPerPage === 1 ? 'grid-cols-1' :
+              productsPerPage === 2 ? 'grid-cols-2' :
+              productsPerPage === 3 ? 'grid-cols-3' :
+              productsPerPage === 4 ? 'grid-cols-4' :
+              productsPerPage === 5 ? 'grid-cols-5' :
+              'grid-cols-6'
+            }`}>
               {visibleProducts.map(product => (
                 <div 
                   key={product.id} 
@@ -359,10 +360,7 @@ const Products = () => {
           <button
             onClick={nextProducts}
             disabled={currentIndex + productsPerPage >= allProducts.length}
-            className={`hidden sm:block absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${currentIndex + productsPerPage >= allProducts.length
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-gray-800 text-white hover:bg-gray-700 hover:scale-110'
-              }`}
+            className={nextButtonClasses}
             style={{ marginRight: '-15px' }}
           >
             <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -375,10 +373,11 @@ const Products = () => {
           <button
             onClick={prevProducts}
             disabled={currentIndex === 0}
-            className={`flex items-center px-4 py-2 rounded-lg transition-all duration-300 ${currentIndex === 0
+            className={`flex items-center px-4 py-2 rounded-lg transition-all duration-300 ${
+              currentIndex === 0
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-800 text-white hover:bg-gray-700'
-              }`}
+            }`}
           >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -393,10 +392,11 @@ const Products = () => {
           <button
             onClick={nextProducts}
             disabled={currentIndex + productsPerPage >= allProducts.length}
-            className={`flex items-center px-4 py-2 rounded-lg transition-all duration-300 ${currentIndex + productsPerPage >= allProducts.length
+            className={`flex items-center px-4 py-2 rounded-lg transition-all duration-300 ${
+              currentIndex + productsPerPage >= allProducts.length
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-800 text-white hover:bg-gray-700'
-              }`}
+            }`}
           >
             Next
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -413,10 +413,11 @@ const Products = () => {
                 <button
                   key={actualIndex}
                   onClick={() => setCurrentIndex(actualIndex * productsPerPage)}
-                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${currentPage === actualIndex
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                    currentPage === actualIndex
                       ? 'bg-gray-800 scale-125'
                       : 'bg-gray-300 hover:bg-gray-400'
-                    }`}
+                  }`}
                 />
               );
             })}
@@ -430,8 +431,7 @@ const Products = () => {
         </div>
       )}
 
-    
-       {isModalOpen && selectedProduct && (
+      {isModalOpen && selectedProduct && (
         <ProductsModal
           product={selectedProduct}
           onClose={handleCloseModal}

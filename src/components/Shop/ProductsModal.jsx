@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineTags } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
+import { CartContext } from "../../Context/CartContext";
 
 const ProductsModal = ({
   product,
@@ -31,6 +32,7 @@ const ProductsModal = ({
 
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [showMessage, setShowMessage] = useState(false);
 
   const changeImage = (directionType) => {
     if (directionType === "next") {
@@ -71,9 +73,32 @@ const ProductsModal = ({
     });
   };
 
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000); // Message disappears after 2 seconds
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 overflow-y-auto top-0">
       <div className="bg-white w-full max-w-xl lg:max-w-5xl rounded-lg shadow-lg relative p-6 mt-[800px] sm:mt-[700px] lg:mt-[400px]">
+        {/* Success Message */}
+        {showMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute top-0 left-0 right-0 mx-auto w-[90%] text-center text-sm text-green-600 font-semibold bg-green-100 py-2 rounded-b shadow-md z-30"
+          >
+            Product added to cart successfully!
+          </motion.div>
+        )}
+
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-800 z-20"
@@ -216,7 +241,10 @@ const ProductsModal = ({
                 </button>
               </div>
 
-              <div className="flex justify-center gap-3 items-center bg-teal-500 text-white py-3 px-6 mt-5 hover:bg-teal-600 transition cursor-pointer">
+              <div
+                className="flex justify-center gap-3 items-center bg-teal-500 text-white py-3 px-6 mt-5 hover:bg-teal-600 transition cursor-pointer"
+                onClick={handleAddToCart}
+              >
                 <BsHandbag className="text-xl" />
                 <p className="text-sm font-semibold">Add To Cart</p>
               </div>

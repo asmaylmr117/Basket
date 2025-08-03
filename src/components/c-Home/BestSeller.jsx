@@ -62,6 +62,11 @@ const BestSeller = () => {
     setSelectedProduct(null);
   };
 
+  // Function to scroll to top on Shop Now click
+  const handleShopNowClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -369,7 +374,7 @@ const BestSeller = () => {
         </motion.div>
       </motion.div>
 
-      {/* Cards Section - Unchanged from Original */}
+      {/* Cards Section */}
       <motion.div
         className="flex justify-center items-center p-2 sm:p-4 w-full mt-8"
         initial="hidden"
@@ -410,6 +415,7 @@ const BestSeller = () => {
                 <Link
                   to="/shop"
                   className="mt-3 sm:mt-4 md:mt-6 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 py-1.5 sm:py-2 px-3 sm:px-4 md:px-6 rounded-full transition-all duration-300 text-xs sm:text-sm md:text-base font-medium self-start shadow-md hover:shadow-lg transform hover:scale-105"
+                  onClick={handleShopNowClick} // Scroll to top on click
                 >
                   Shop Now
                 </Link>
