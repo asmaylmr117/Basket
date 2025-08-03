@@ -12,20 +12,20 @@ function Footer() {
   };
 
   return (
-    <div className="mt-20 bg-[#020618] text-[#fff]">
+    <div className="mt-20  bg-[#F7F8FD] text-[#fff]">
       <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-16">
         <div className="newsletter-content flex items-center gap-4 md:justify-start justify-center border-b-[0.2px] border-[#fff] pb-16 mb-16">
           <div className="email-icon">
-            <IoCart className="text-6xl" />
+            <IoCart className="text-6xl text-[#71778E]" />
           </div>
-          <h4 className="newsletter-title text-dark-footerTitle font-bold md:text-3xl text-xl leading-[1.3]">
-            Sign Up to Get Updates & <br /> News About Us.
+          <h4 className="newsletter-title text-[#71778E] text-dark-footerTitle font-bold md:text-3xl text-xl leading-[1.3]">
+            Sign Up to Get Updates & <br  className="text-[#71778E]"/> News About Us.
           </h4>
         </div>
 
         <div className="grid grid-cols-1 gap-20 lg:grid-cols-3">
           <div>
-            <p className="mt-1 max-w-md text-center leading-relaxed text-dark-footerSubTitle sm:max-w-xs sm:text-left">
+            <p className="mt-1 max-w-md text-center text-[#71778E]  leading-relaxed text-dark-footerSubTitle sm:max-w-xs sm:text-left">
               You interested in fashion trends, the history of clothing,
               different types of garments, clothing materials, or something
               else? Let me know so I can tailor my response to your interests!
@@ -34,22 +34,22 @@ function Footer() {
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
             <div className="text-center sm:text-left">
-              <p className="text-2xl font-bold text-dark-footerTitle">
+              <p className="text-2xl font-bold text-[#71778E] text-dark-footerTitle">
                 About Us
               </p>
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <Link
-                    className="text-dark-footerSubTitle transition hover:text-[#35afa0]"
+                    className="text-dark-footerSubTitle text-[#71778E] transition hover:text-[#35afa0]"
                     to="/"
-                    onClick={scrollToTop} // إضافة الحدث
+                    onClick={scrollToTop} 
                   >
                     Home
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="text-dark-footerSubTitle transition hover:text-[#35afa0]"
+                    className="text-dark-footerSubTitle text-[#71778E] transition hover:text-[#35afa0]"
                     to="/about"
                     onClick={scrollToTop} // إضافة الحدث
                   >
@@ -58,7 +58,7 @@ function Footer() {
                 </li>
                 <li>
                   <Link
-                    className="text-dark-footerSubTitle transition hover:text-[#35afa0]"
+                    className="text-dark-footerSubTitle text-[#71778E]  transition hover:text-[#35afa0]"
                     to="/blog"
                     onClick={scrollToTop} // إضافة الحدث
                   >
@@ -69,10 +69,10 @@ function Footer() {
             </div>
 
             <div className="text-center sm:text-left">
-              <p className="text-2xl font-bold text-dark-footerTitle">
+              <p className="text-2xl font-bold text-[#71778E] text-dark-footerTitle">
                 Helpful Links
               </p>
-              <ul className="mt-8 space-y-4 text-sm">
+              <ul className="mt-8 space-y-4 text-[#71778E] text-sm">
                 <li>
                   <Link
                     className="text-dark-footerSubTitle transition hover:text-[#35afa0]"
@@ -103,7 +103,7 @@ function Footer() {
               </ul>
             </div>
 
-            <div className="text-center sm:text-left">
+            <div className="text-center text-[#71778E]  sm:text-left">
               <p className="text-2xl font-bold text-dark-footerTitle">
                 Contact Us
               </p>
@@ -186,14 +186,14 @@ function Footer() {
       <div
         className="mt-12 py-6 px-20"
         style={{
-
+          
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="text-center sm:text-left pt-4">
-          <div className="text-sm text-slate-300">
-            <p className="flex text-md">
+        <div className="text-center text-[#71778E] sm:text-left pt-4">
+          <div className="text-sm text-[#71778E] text-slate-300">
+            <p className="flex text-[#71778E]  text-md">
               Copyright <FaRegCopyright className="mx-[5px] text-lg" /> 2025.
               All Rights Reserved.
             </p>
