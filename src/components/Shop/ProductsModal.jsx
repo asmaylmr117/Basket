@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect ,useContext} from "react";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineTags } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
+import { CartContext } from "../../Context/CartContext";
 
 const ProductsModal = ({
   product,
@@ -70,6 +71,8 @@ const ProductsModal = ({
       behavior: "smooth",
     });
   };
+
+  const { addToCart } = useContext(CartContext);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 overflow-y-auto top-0">
@@ -216,7 +219,10 @@ const ProductsModal = ({
                 </button>
               </div>
 
-              <div className="flex justify-center gap-3 items-center bg-teal-500 text-white py-3 px-6 mt-5 hover:bg-teal-600 transition cursor-pointer">
+              <div
+                className="flex justify-center gap-3 items-center bg-teal-500 text-white py-3 px-6 mt-5 hover:bg-teal-600 transition cursor-pointer"
+                onClick={() => addToCart(product, quantity)}
+              >
                 <BsHandbag className="text-xl" />
                 <p className="text-sm font-semibold">Add To Cart</p>
               </div>

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useContext} from 'react';
 import { motion } from 'framer-motion';
  import ProductsModal from '../Shop/ProductsModal'; 
  import { Link } from 'react-router-dom';
-// Mock Link component for demo
 
+// Mock Link component for demo
 
 const Products = () => {
   const [topProducts, setTopProducts] = useState([]);

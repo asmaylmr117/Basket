@@ -1,30 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { LuMenu } from "react-icons/lu";
 import { IoCart, IoClose } from "react-icons/io5";
 import { AiOutlineShopping } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { navLinks } from "../../utils/HeaderLinks";
+import { CartContext } from "../../Context/CartContext";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showSignInForm, setShowSignInForm] = useState(false);
   const [isSignUpForm, setIsSignUpForm] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [signInSuccess, setSignInSuccess] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true';
+    return localStorage.getItem("isLoggedIn") === "true";
   });
   const [welcomeMessage, setWelcomeMessage] = useState(() => {
-    return localStorage.getItem('welcomeMessage') || '';
+    return localStorage.getItem("welcomeMessage") || "";
   });
-  const [signInError, setSignInError] = useState('');
-  const [signUpError, setSignUpError] = useState('');
+  const [signInError, setSignInError] = useState("");
+  const [signUpError, setSignUpError] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { cart } = useContext(CartContext);
+  // const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     const onScroll = () => {
@@ -44,8 +47,8 @@ function Header() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    localStorage.setItem('isLoggedIn', isLoggedIn);
-    localStorage.setItem('welcomeMessage', welcomeMessage);
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+    localStorage.setItem("welcomeMessage", welcomeMessage);
   }, [isLoggedIn, welcomeMessage]);
 
   const toggleTheme = () => {
@@ -59,33 +62,36 @@ function Header() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://shop-co-back.vercel.app/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
+      const response = await fetch(
+        "https://shop-co-back.vercel.app/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (response.ok) {
         setSignInSuccess(true);
         setIsLoggedIn(true);
         setWelcomeMessage(`Welcome, ${email}!`);
-        setSignInError('');
-        setEmail('');
-        setPassword('');
+        setSignInError("");
+        setEmail("");
+        setPassword("");
         setTimeout(() => {
           setSignInSuccess(false);
           setShowSignInForm(false);
         }, 3000);
       } else {
-        setSignInError('This account has not been registered.');
+        setSignInError("This account has not been registered.");
         setTimeout(() => {
-          setSignInError('');
+          setSignInError("");
         }, 3000);
       }
     } catch (error) {
-      console.error('Sign in error:', error);
-      setSignInError('An error occurred. Please try again.');
+      console.error("Sign in error:", error);
+      setSignInError("An error occurred. Please try again.");
       setTimeout(() => {
-        setSignInError('');
+        setSignInError("");
       }, 3000);
     }
   };
@@ -93,44 +99,47 @@ function Header() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://shop-co-back.vercel.app/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-      });
+      const response = await fetch(
+        "https://shop-co-back.vercel.app/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password }),
+        }
+      );
       if (response.ok) {
         setSignUpSuccess(true);
         setIsLoggedIn(true);
         setWelcomeMessage(`Welcome, ${email}!`);
-        setSignUpError('');
-        setUsername('');
-        setEmail('');
-        setPassword('');
+        setSignUpError("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
         setTimeout(() => {
           setSignUpSuccess(false);
           setShowSignInForm(false);
         }, 3000);
       } else {
-        setSignUpError('This account has been registered before');
+        setSignUpError("This account has been registered before");
         setTimeout(() => {
-          setSignUpError('');
+          setSignUpError("");
         }, 3000);
       }
     } catch (error) {
-      console.error('Sign up error:', error);
-      setSignUpError('An error occurred. Please try again.');
+      console.error("Sign up error:", error);
+      setSignUpError("An error occurred. Please try again.");
       setTimeout(() => {
-        setSignUpError('');
+        setSignUpError("");
       }, 3000);
     }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setWelcomeMessage('');
+    setWelcomeMessage("");
     setShowSignInForm(false);
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('welcomeMessage');
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("welcomeMessage");
   };
 
   return (
@@ -172,10 +181,9 @@ function Header() {
 
           <div className="flex items-center gap-4">
             <div className="flex md:gap-8 gap-8 items-center">
-              
               <div className="w-fit relative">
                 <span className="absolute -top-2 -right-4 bg-[#35afa0] text-white text-[12px] px-2 rounded-full">
-                  0
+                  {cart.length}
                 </span>
                 <AiOutlineShopping size={28} className="text-[#35afa0]" />
               </div>
@@ -222,7 +230,7 @@ function Header() {
                     Sign in to your account
                   </h2>
                   <p className="text-center mb-4">
-                    Or{' '}
+                    Or{" "}
                     <button
                       className="text-[#35afa0] hover:underline"
                       onClick={() => setIsSignUpForm(true)}
@@ -231,11 +239,16 @@ function Header() {
                     </button>
                   </p>
                   {signInError && (
-                    <p className="text-red-600 text-center mb-4">{signInError}</p>
+                    <p className="text-red-600 text-center mb-4">
+                      {signInError}
+                    </p>
                   )}
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium dark:text-white text-gray-700">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium dark:text-white text-gray-700"
+                      >
                         Email
                       </label>
                       <input
@@ -249,7 +262,10 @@ function Header() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="password" className="block text-sm font-medium dark:text-white text-gray-700">
+                      <label
+                        htmlFor="password"
+                        className="block text-sm font-medium dark:text-white text-gray-700"
+                      >
                         Password
                       </label>
                       <input
@@ -281,7 +297,7 @@ function Header() {
                     Create your account
                   </h2>
                   <p className="text-center mb-4">
-                    Already have account?{' '}
+                    Already have account?{" "}
                     <button
                       className="text-[#35afa0] hover:underline"
                       onClick={() => setIsSignUpForm(false)}
@@ -290,11 +306,16 @@ function Header() {
                     </button>
                   </p>
                   {signUpError && (
-                    <p className="text-red-600 text-center mb-4">{signUpError}</p>
+                    <p className="text-red-600 text-center mb-4">
+                      {signUpError}
+                    </p>
                   )}
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="username" className="block text-sm font-medium dark:text-white text-gray-700">
+                      <label
+                        htmlFor="username"
+                        className="block text-sm font-medium dark:text-white text-gray-700"
+                      >
                         User name
                       </label>
                       <input
@@ -308,7 +329,10 @@ function Header() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium dark:text-white text-gray-700">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium dark:text-white text-gray-700"
+                      >
                         Email address
                       </label>
                       <input
@@ -322,7 +346,10 @@ function Header() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="password" className="block text-sm font-medium dark:text-white text-gray-700">
+                      <label
+                        htmlFor="password"
+                        className="block text-sm font-medium dark:text-white text-gray-700"
+                      >
                         Password
                       </label>
                       <input
@@ -351,7 +378,9 @@ function Header() {
               )
             ) : (
               <div>
-                <p className="text-green-600 text-center text-lg mb-4">{welcomeMessage}</p>
+                <p className="text-green-600 text-center text-lg mb-4">
+                  {welcomeMessage}
+                </p>
                 <button
                   onClick={() => setShowSignInForm(false)}
                   className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-200"
