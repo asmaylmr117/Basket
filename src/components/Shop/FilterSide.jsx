@@ -324,8 +324,8 @@ export default function FilterSide({
                     type="radio"
                     name="availability-desktop"
                     className="mr-4 accent-teal-500"
-                    checked={filters.inStock === true}
-                    onChange={() => onSetInStock(true)}
+                    checked={filters.inStock === false}
+                    onChange={() => onSetInStock(false)}
                   />
                   <span> Out of stock </span>
                 </div>
