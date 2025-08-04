@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../Context/CartContext";
 import { ImSpinner8 } from "react-icons/im";
@@ -25,7 +25,7 @@ function Checkout() {
         setProducts([]);
         return;
       }
-  
+
       try {
         const promises = cart.map((item) =>
           axios.get(`https://fakestoreapi.com/products/${item.id}`)
@@ -41,7 +41,7 @@ function Checkout() {
         console.error("Failed to fetch products:", error);
       }
     };
-  
+
     if (cart.length > 0) {
       fetchProducts();
     } else {
@@ -49,7 +49,7 @@ function Checkout() {
       setLoading(false);
     }
   }, [cart]);
-  
+
   // // Calculate total cost
   const total = products.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -306,11 +306,12 @@ function Checkout() {
                   {product.quantity}
                 </div>
 
-                <div className="absolute bottom-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cursor-pointer"
-                 onClick={() => handleDecrease(product)}>
+                <div
+                  className="absolute bottom-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cursor-pointer"
+                  onClick={() => handleDecrease(product)}
+                >
                   -
                 </div>
-
               </div>
               <div className="flex-1 text-sm">
                 <p className="font-medium text-gray-800">{product.title}</p>

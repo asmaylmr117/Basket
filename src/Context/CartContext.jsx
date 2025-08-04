@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
 
   // Load cart from localStorage on first load
   useEffect(() => {
-    setCart([...CartStorage.getCart()]); 
+    setCart([...CartStorage.getCart()]);
   }, []);
 
   const addToCart = (product, quantity = 1) => {

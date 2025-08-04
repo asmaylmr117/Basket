@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FaStar } from "react-icons/fa6";
 import ProductsModal from "./ProductsModal";
 import { motion } from "framer-motion";
+import { CartContext } from "../../Context/CartContext";
 
 const ShopProducts = ({ products = [] }) => {
   const [quantities, setQuantities] = useState({});
@@ -18,11 +19,12 @@ const ShopProducts = ({ products = [] }) => {
         initial = {};
       }
     }
-    const next = { ...initial };
+    const next = {};
     for (const p of products) {
-      if (typeof next[p.id] !== "number" || next[p.id] < 1) {
-        next[p.id] = 1;
-      }
+      next[p.id] =
+        typeof initial[p.id] === "number" && initial[p.id] >= 0
+          ? initial[p.id]
+          : 0;
     }
     setQuantities(next);
   }, [products]);
@@ -42,8 +44,8 @@ const ShopProducts = ({ products = [] }) => {
 
   const changeQty = (id, delta, max = 99) => {
     setQuantities((prev) => {
-      const currentQty = prev[id] ?? 1;
-      const newQty = Math.min(Math.max(1, currentQty + delta), max);
+      const currentQty = prev[id] ?? 0;
+      const newQty = Math.min(Math.max(0, currentQty + delta), max);
       const stored = localStorage.getItem("basket_qty");
       const parsed = stored ? JSON.parse(stored) : {};
       parsed[id] = newQty;
@@ -67,8 +69,8 @@ const ShopProducts = ({ products = [] }) => {
   return (
     <div className="mb-8 sm:mb-12 border-1 border-gray-200 rounded-lg">
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-0">
-        {products.map((product , index) => {
-          const qty = quantities[product.id] ?? 1;
+        {products.map((product, index) => {
+          const qty = quantities[product.id] ?? 0;
           const unit = Number(
             product.discount ? product.finalPrice : product.price
           );
@@ -145,7 +147,7 @@ const ShopProducts = ({ products = [] }) => {
                       e.stopPropagation();
                       changeQty(product.id, -1);
                     }}
-                    disabled={qty <= 1}
+                    disabled={qty <= 0}
                     className="inline-block border-t border-b text-2xl font-bold bg-gray-300 px-3 py-0 disabled:opacity-30 "
                   >
                     -
@@ -179,7 +181,7 @@ const ShopProducts = ({ products = [] }) => {
           }}
           pro={products}
           changeQty={changeQty}
-          quantity={quantities[selectedProduct.id] ?? 1}
+          quantity={quantities[selectedProduct.id] ?? 0}
           setSelectedProduct={setSelectedProduct}
           setIsModalOpen={setIsModalOpen}
         />
