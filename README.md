@@ -6,7 +6,7 @@ This project is an e-commerce store developed using React.js as part of the SEF 
 ## Team Members
 - [Mostafa Ismail](https://github.com/asmaylmr117)
 - [Aya Alaa](https://github.com/AyaAlaa2)
-- [Youssef Fassal](https://github.com/youssefassal)
+- [Youssef Assal](https://github.com/youssefassal)
 - [Mohammed Tamer](https://github.com/mohamed589m)
 - [Sawsan Daher](https://github.com/Sawsan-Daher)
 
