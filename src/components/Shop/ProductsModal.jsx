@@ -220,7 +220,7 @@ const ProductsModal = ({
                     e.stopPropagation();
                     changeQty(product.id, -1);
                   }}
-                  disabled={quantity <= 1}
+                  disabled={quantity <= 0}
                   className="inline-block text-2xl px-3 py-0 disabled:opacity-30 font-semibold"
                 >
                   <FiMinus />
